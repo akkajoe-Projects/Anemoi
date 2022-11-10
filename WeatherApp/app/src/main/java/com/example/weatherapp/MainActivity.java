@@ -6,18 +6,15 @@ import androidx.core.app.ActivityCompat;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.location.Location;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.android.gms.internal.maps.zzaa;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnSuccessListener;
 
 import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
@@ -44,11 +41,10 @@ public class MainActivity extends AppCompatActivity {
         map.setMultiTouchControls(true);
         mapController = map.getController();
         mapController.setZoom(10);
-        getLastLocation();
-
+        getLastLocation(map);
     }
 
-    public void getLastLocation() {
+    public void getLastLocation(MapView map) {
         String CHECK = "CHECK 1";
         String CHECK2 = "CHECK 2";
         String CHECK3 = "CHECK 3";
@@ -77,7 +73,12 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, Longitude, Toast.LENGTH_SHORT).show();
                 GeoPoint startPoint = new GeoPoint(lat, lon);
                 mapController.setCenter(startPoint);
-//                Marker live_marker = Marker(map);
+                Marker live_marker = new Marker(map);
+                live_marker.setPosition(new GeoPoint(lat, lon));
+//                live_marker.setIcon(new ColorDrawable(getResources().getColor(android.R.color.holo_red_dark)));
+                live_marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+                map.getOverlays().add(live_marker);
+//                live_marker.showInfoWindow();
 
             }
         });
