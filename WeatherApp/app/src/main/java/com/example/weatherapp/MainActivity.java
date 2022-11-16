@@ -4,24 +4,25 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.preference.PreferenceManager;
-import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.osmdroid.api.IMapController;
@@ -32,19 +33,14 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
 
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
-import java.net.URL;
 
-public class MainActivity<pubic> extends AppCompatActivity {
-
+public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     public IMapController mapController;
     public FusedLocationProviderClient fusedLocationClient;
     String api_key = "6e6bd91309b9b77588424036888993a5";
+    public Button btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,15 +55,17 @@ public class MainActivity<pubic> extends AppCompatActivity {
         map.setMultiTouchControls(true);
         mapController = map.getController();
         mapController.setZoom(10);
-        getLastLocation(map);
+        btn = findViewById(R.id.button);
+        btn.setOnClickListener(this);
+
         try {
-            city_name(ctx);
+            getLastLocation(map, ctx);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void getLastLocation(MapView map) {
+    public void getLastLocation(MapView map, Context ctx) throws IOException {
         String CHECK = "CHECK 1";
         String CHECK2 = "CHECK 2";
         String CHECK3 = "CHECK 3";
@@ -104,40 +102,75 @@ public class MainActivity<pubic> extends AppCompatActivity {
                 map.getOverlays().add(live_marker);
             }
         });
+
     }
 
     public void city_name(Context ctx) throws IOException {
         EditText city_input = (EditText) findViewById(R.id.city_input);
         String city = city_input.getText().toString();
-//        Toast.makeText(MainActivity.this, city, Toast.LENGTH_SHORT).show();
-//        Geocoder city_geocoder = new Geocoder(ctx);
+        Toast.makeText(MainActivity.this, city, Toast.LENGTH_SHORT).show();
+        if (city.equals(" ")) {
+            Toast.makeText(MainActivity.this, "EMPTY CITY", Toast.LENGTH_SHORT).show();
+        }
         weatherhttp(city);
+//        geocoding(city);
+    }
+
+
+    @SuppressLint("NonConstantResourceId")
+    @Override
+    public void onClick(View view) {
+        if (view.getId() == R.id.button) {
+            try {
+                city_name(getApplicationContext());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public void weatherhttp(String city) throws MalformedURLException {
         String base_url = "https://api.openweathermap.org/data/2.5/weather?q=";
-        String url = base_url + "Jaipur" + "&appid="+ api_key;
+        String url = base_url + city + "&appid="+ api_key;
         Toast.makeText(MainActivity.this, url, Toast.LENGTH_SHORT).show();
-//        StringRequest stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
-//
-//            @Override
-//            public void onResponse(String response) {
-//                Toast.makeText(MainActivity.this, "Response: " + response, Toast.LENGTH_LONG).show();
-//            }
-//        }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                Toast.makeText(MainActivity.this, stringRequest, Toast.LENGTH_SHORT).show();
-//                Toast.makeText(getApplicationContext(), "Error: "+error.toString(), Toast.LENGTH_SHORT).show();
-//            }
-//        });
-        RequestQueue requestqueue = Volley.newRequestQueue(getApplicationContext());
-//        requestqueue.add(stringRequest);
 
         JsonObjectRequest jsonObjectRequest	= new JsonObjectRequest(url,new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response)
-                    {Toast.makeText(MainActivity.this, "Response: " + response, Toast.LENGTH_LONG).show();
+                    {
+                        Toast.makeText(MainActivity.this, "Response: " + response, Toast.LENGTH_LONG).show();
+                        try {
+                            JSONObject coordobj = response.getJSONObject("coord");
+                            String lat = coordobj.getString("lat");
+                            String lon = coordobj.getString("lon");
+                            double double_lat = Double.parseDouble(lat);
+                            double double_long = Double.parseDouble(lon);
+                            Toast.makeText(MainActivity.this, "Lat: " + double_lat + "long: "+ double_long, Toast.LENGTH_LONG).show();
+                            JSONArray jsonArray = response.getJSONArray("Weather");
+                            JSONObject weatherobj = jsonArray.getJSONObject(0);
+                            String description = weatherobj.getString("description");
+                            JSONObject mainobj = response.getJSONObject("main");
+                            double temp = mainobj.getDouble("temp")-273.15;
+                            int humidity = mainobj.getInt("humidity");
+                            JSONObject windobj = response.getJSONObject("wind");
+                            JSONObject cloudobj = response.getJSONObject("clouds");
+                            String clouds = cloudobj.getString("all");
+                            String wind = windobj.getString("speed");
+                            JSONObject sysobj = response.getJSONObject("sys");
+                            String Country = response.getString("country");
+                            GeoPoint citypoint = new GeoPoint(double_lat, double_long);
+                            MapView map = (MapView) findViewById(R.id.mapView);
+//                            map.getController().animateTo(citypoint);
+                            mapController = map.getController();
+                            mapController.setCenter(citypoint);
+                            mapController.setZoom(10);
+                            Marker city_marker = new Marker(map);
+                            city_marker.setPosition(new GeoPoint(double_lat, double_long));
+                            city_marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+                            map.getOverlays().add(city_marker);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 },
                 new Response.ErrorListener() {
@@ -146,44 +179,31 @@ public class MainActivity<pubic> extends AppCompatActivity {
                     {Toast.makeText(getApplicationContext(), "Error: "+error.toString(), Toast.LENGTH_SHORT).show();
                     }
                 });
+        RequestQueue requestqueue = Volley.newRequestQueue(getApplicationContext());
         requestqueue.add(jsonObjectRequest);
+    }}
 
 
-
-
-
-
-
-
-//            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-//            connection.setRequestMethod("GET");
-//            connection.setRequestProperty("Accept", "application/json");
-//            String a = String.valueOf(connection.getResponseCode());
-//            connection.setDoInput(true);
-//            connection.setDoOutput(true);
-//            connection.connect();
-//            String response = connection.getResponseCode() + " " + connection.getResponseMessage();
-//            Toast.makeText(MainActivity.this, response, Toast.LENGTH_SHORT).show();
-//            System.out.println(connection.getResponseCode() + " " + connection.getResponseMessage());
-//            connection.disconnect();
-//            // Reading the response
-//            StringBuffer buffer = new StringBuffer();
-//            InputStream is = connection.getInputStream();
-//            BufferedReader br = new BufferedReader(new InputStreamReader(is));
-//            String line= null;
-//            while ((line=br.readLine())!=null);
-//            buffer.append(line+"rn");
-//            is.close();
-//            connection.disconnect();
-//            String response = buffer.toString()+"RESPONSE";
-//            Toast.makeText(MainActivity.this, response, Toast.LENGTH_SHORT).show();
-//            return buffer.toString();
-//        }
+//    public void geocoding(String city) {
+//    String geo_url = "http://api.openweathermap.org/geo/1.0/direct?q="+city+"&appid="+api_key;
+//        JsonObjectRequest jsonObjectRequest	= new JsonObjectRequest(geo_url,new Response.Listener<JSONObject>() {
+//            @Override
+//            public void onResponse(JSONObject geoloc)
+//            {Toast.makeText(MainActivity.this, "GEO RESPONSE: " + geoloc, Toast.LENGTH_LONG).show();
+//            }
+//        },
+//                new Response.ErrorListener() {
+//                    @Override
+//                    public void onErrorResponse(VolleyError error)
+//                    {
+////                        Toast.makeText(getApplicationContext(), "U: "+error.toString().trim(), Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//        RequestQueue requestqueue = Volley.newRequestQueue(getApplicationContext());
+//        requestqueue.add(jsonObjectRequest);
 //
 //
-//        return base_url;
-//    }
+//
+//    }}
 
-    }
-}
 
