@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -36,11 +37,13 @@ import org.osmdroid.views.overlay.Marker;
 import java.io.IOException;
 import java.net.MalformedURLException;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, ButtonClick {
     public IMapController mapController;
     public FusedLocationProviderClient fusedLocationClient;
     String api_key = "6e6bd91309b9b77588424036888993a5";
     public Button btn;
+    public MapView map;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +52,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
         setContentView(R.layout.activity_main);
         setContentView(R.layout.activity_main);
-        MapView map = (MapView) findViewById(R.id.mapView);
+        String map1 = String.valueOf(map);
+        Toast.makeText(MainActivity.this, "BEFORE CHECK"+map1, Toast.LENGTH_SHORT).show();
+        map = (MapView) findViewById(R.id.mapView);
+        String map2 = String.valueOf(map);
+        Log.d("MAP A", map2);
+
+        Toast.makeText(MainActivity.this, "AFTER CHECK"+map2, Toast.LENGTH_SHORT).show();
+
         map.setTileSource(TileSourceFactory.MAPNIK);
         map.setBuiltInZoomControls(true);
         map.setMultiTouchControls(true);
@@ -102,7 +112,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 map.getOverlays().add(live_marker);
             }
         });
-
     }
 
     public void city_name(Context ctx) throws IOException {
@@ -114,6 +123,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         weatherhttp(city);
 //        geocoding(city);
+
     }
 
 
@@ -136,21 +146,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         JsonObjectRequest jsonObjectRequest	= new JsonObjectRequest(url,new Response.Listener<JSONObject>() {
                     @Override
-                    public void onResponse(JSONObject response)
-                    {
+                    public void onResponse(JSONObject response) {
                         Toast.makeText(MainActivity.this, "Response: " + response, Toast.LENGTH_LONG).show();
+                        double double_long = 0;
+                        double double_lat = 0;
                         try {
                             JSONObject coordobj = response.getJSONObject("coord");
                             String lat = coordobj.getString("lat");
                             String lon = coordobj.getString("lon");
-                            double double_lat = Double.parseDouble(lat);
-                            double double_long = Double.parseDouble(lon);
-                            Toast.makeText(MainActivity.this, "Lat: " + double_lat + "long: "+ double_long, Toast.LENGTH_LONG).show();
+                            double_lat = Double.parseDouble(lat);
+                            double_long = Double.parseDouble(lon);
+                            Toast.makeText(MainActivity.this, "Lat: " + double_lat + "long: " + double_long, Toast.LENGTH_LONG).show();
+                            String map3 = String.valueOf(map);
+                            Toast.makeText(MainActivity.this, "RESULT" + map3, Toast.LENGTH_SHORT).show();
                             JSONArray jsonArray = response.getJSONArray("Weather");
                             JSONObject weatherobj = jsonArray.getJSONObject(0);
                             String description = weatherobj.getString("description");
                             JSONObject mainobj = response.getJSONObject("main");
-                            double temp = mainobj.getDouble("temp")-273.15;
+                            double temp = mainobj.getDouble("temp") - 273.15;
                             int humidity = mainobj.getInt("humidity");
                             JSONObject windobj = response.getJSONObject("wind");
                             JSONObject cloudobj = response.getJSONObject("clouds");
@@ -158,19 +171,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             String wind = windobj.getString("speed");
                             JSONObject sysobj = response.getJSONObject("sys");
                             String Country = response.getString("country");
-                            GeoPoint citypoint = new GeoPoint(double_lat, double_long);
-                            MapView map = (MapView) findViewById(R.id.mapView);
-//                            map.getController().animateTo(citypoint);
-                            mapController = map.getController();
-                            mapController.setCenter(citypoint);
-                            mapController.setZoom(10);
-                            Marker city_marker = new Marker(map);
-                            city_marker.setPosition(new GeoPoint(double_lat, double_long));
-                            city_marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-                            map.getOverlays().add(city_marker);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+                        map_recenter(double_lat, double_long);
                     }
                 },
                 new Response.ErrorListener() {
@@ -181,29 +185,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 });
         RequestQueue requestqueue = Volley.newRequestQueue(getApplicationContext());
         requestqueue.add(jsonObjectRequest);
-    }}
+    }
 
+public void map_recenter(double lat, double lon) {
+    map.getController().animateTo(new GeoPoint(lat, lon));
 
-//    public void geocoding(String city) {
-//    String geo_url = "http://api.openweathermap.org/geo/1.0/direct?q="+city+"&appid="+api_key;
-//        JsonObjectRequest jsonObjectRequest	= new JsonObjectRequest(geo_url,new Response.Listener<JSONObject>() {
-//            @Override
-//            public void onResponse(JSONObject geoloc)
-//            {Toast.makeText(MainActivity.this, "GEO RESPONSE: " + geoloc, Toast.LENGTH_LONG).show();
-//            }
-//        },
-//                new Response.ErrorListener() {
-//                    @Override
-//                    public void onErrorResponse(VolleyError error)
-//                    {
-////                        Toast.makeText(getApplicationContext(), "U: "+error.toString().trim(), Toast.LENGTH_SHORT).show();
-//                    }
-//                });
-//        RequestQueue requestqueue = Volley.newRequestQueue(getApplicationContext());
-//        requestqueue.add(jsonObjectRequest);
-//
-//
-//
-//    }}
+}
+}
+
 
 
