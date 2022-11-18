@@ -124,6 +124,14 @@
             android:paddingLeft="30dp"
             android:text="" />
 
+        <TextView
+            android:id="@+id/Clouds"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/Wind"
+            android:paddingLeft="30dp"
+            android:text="" />
+
     </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
