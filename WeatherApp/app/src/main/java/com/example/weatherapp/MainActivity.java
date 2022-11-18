@@ -242,12 +242,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         public boolean singleTapConfirmedHelper (GeoPoint p){
             Toast.makeText(getApplicationContext(), "LAT" + p.getLatitude() + "LONG" + p.getLatitude(), Toast.LENGTH_SHORT).show();
-            Polygon circle= new Polygon(map);
-            circle.setPoints(Polygon.pointsAsCircle(p,2000));
-            circle.setFillColor(0x12121212);
-            circle.setStrokeColor(android.R.color.holo_red_dark);
-            circle.setStrokeWidth(2);
-            map.getOverlays().add(circle);
+            Marker mark = new Marker(map);
+            mark.setPosition(p);
+            mark.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+            map.getOverlays().add(mark);
+            map.getController().animateTo(p);
             return true;
         }
 
