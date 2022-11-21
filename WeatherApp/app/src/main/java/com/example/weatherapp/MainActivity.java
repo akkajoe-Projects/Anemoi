@@ -41,6 +41,7 @@ import org.osmdroid.views.overlay.MapEventsOverlay;
 import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.OverlayItem;
 import org.osmdroid.views.overlay.Polygon;
+import org.osmdroid.views.overlay.infowindow.InfoWindow;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -110,6 +111,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 live_marker.setPosition(new GeoPoint(lat, lon));
                 live_marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
                 map.getOverlays().add(live_marker);
+                live_marker.setInfoWindow(null);
 
                 String closest_city_url = "https://api.openweathermap.org/data/2.5/weather?lat=" + Latitude + "&lon=" + Longitude + "&appid=" + api_key;
                 JsonObjectRequest live_json_data = new JsonObjectRequest(closest_city_url, new Response.Listener<JSONObject>() {
@@ -281,9 +283,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             marker_list.get(0).remove(map);
             marker_list.remove(0);
         }
-
+        mark.setInfoWindow(null);
     }
-
     public void get_icon(String icon_code) {
         Toast.makeText(getApplicationContext(), icon_code, Toast.LENGTH_SHORT).show();
         RequestQueue requestqueue = Volley.newRequestQueue(getApplicationContext());
@@ -325,9 +326,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 marker_list.get(0).remove(map);
                 marker_list.remove(0);
             }
-            Toast.makeText(getApplicationContext(),"marker_list "+marker_list, Toast.LENGTH_SHORT).show();
-            Log.d("MARKER LIST",String.valueOf(marker_list));
-            Toast.makeText(getApplicationContext(),"CHECK", Toast.LENGTH_SHORT).show();
+            mark.setInfoWindow(null);
+
             String closest_city_url = "https://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&appid=" + api_key;
             JsonObjectRequest clicked_json = new JsonObjectRequest(closest_city_url, new Response.Listener<JSONObject>() {
                 @SuppressLint("SetTextI18n")
@@ -382,6 +382,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             });
             RequestQueue requestqueue = Volley.newRequestQueue(getApplicationContext());
             requestqueue.add(clicked_json);
+            InfoWindow.closeAllInfoWindowsOn(map);
             return true;
         }
 
