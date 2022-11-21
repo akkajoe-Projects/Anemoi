@@ -44,6 +44,8 @@ import org.osmdroid.views.overlay.Polygon;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, ButtonClick, MapEventsReceiver {
     public IMapController mapController;
@@ -51,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     String api_key = "6e6bd91309b9b77588424036888993a5";
     public Button btn;
     public MapView map;
+    List<Marker> marker_list = new ArrayList<Marker>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,12 +84,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void getLastLocation(MapView map, Context ctx) throws IOException {
-        String CHECK = "CHECK 1";
-        String CHECK2 = "CHECK 2";
-        String CHECK3 = "CHECK 3";
-//        Toast.makeText(MainActivity.this, CHECK, Toast.LENGTH_SHORT).show();
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-//        Toast.makeText(MainActivity.this, CHECK2, Toast.LENGTH_SHORT).show();
         int locationRequestCode = 1000;
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -204,7 +202,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @SuppressLint("SetTextI18n")
             @Override
             public void onResponse(JSONObject response) {
-//                        Toast.makeText(MainActivity.this, "Response: " + response, Toast.LENGTH_LONG).show();
                 double double_long = 0;
                 double double_lat = 0;
                 double temp = 0;
@@ -279,6 +276,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mark.setIcon(getResources().getDrawable(R.drawable.ic_marker_foreground));
         map.getOverlays().add(mark);
         map.getController().animateTo(new GeoPoint(lat, lon));
+        marker_list.add(mark);
+        if (marker_list.size()!=1) {
+            marker_list.get(0).remove(map);
+            marker_list.remove(0);
+        }
 
     }
 
@@ -318,6 +320,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             mark.setIcon(getResources().getDrawable(R.drawable.ic_marker_foreground));
             map.getOverlays().add(mark);
             map.getController().animateTo(p);
+            marker_list.add(mark);
+            if (marker_list.size()!=1) {
+                marker_list.get(0).remove(map);
+                marker_list.remove(0);
+            }
+            Toast.makeText(getApplicationContext(),"marker_list "+marker_list, Toast.LENGTH_SHORT).show();
+            Log.d("MARKER LIST",String.valueOf(marker_list));
             Toast.makeText(getApplicationContext(),"CHECK", Toast.LENGTH_SHORT).show();
             String closest_city_url = "https://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&appid=" + api_key;
             JsonObjectRequest clicked_json = new JsonObjectRequest(closest_city_url, new Response.Listener<JSONObject>() {
