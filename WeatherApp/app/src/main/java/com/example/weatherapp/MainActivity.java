@@ -18,6 +18,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -187,7 +189,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                map_recenter(double_lat, double_long);
+                try {
+                    map_recenter(double_lat, double_long);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 TextView city_text = (TextView) findViewById(R.id.City);
                 city_text.setText(city);
                 TextView temp_text = (TextView) findViewById(R.id.Temp);
@@ -215,8 +221,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         requestqueue.add(jsonObjectRequest);
     }
 
-    public void map_recenter(double lat, double lon) {
+    @SuppressLint("UseCompatLoadingForDrawables")
+    public void map_recenter(double lat, double lon) throws JSONException {
         map.getController().animateTo(new GeoPoint(lat, lon));
+        Marker mark = new Marker(map);
+        mark.setPosition(new GeoPoint(lat, lon));
+        mark.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+        mark.setIcon(getResources().getDrawable(R.drawable.ic_marker_foreground));
+        map.getOverlays().add(mark);
+        map.getController().animateTo(new GeoPoint(lat, lon));
+
     }
 
     public void get_icon(String icon_code) {
@@ -247,12 +261,69 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         @Override
         public boolean singleTapConfirmedHelper (GeoPoint p){
             Toast.makeText(getApplicationContext(), "LAT" + p.getLatitude() + "LONG" + p.getLatitude(), Toast.LENGTH_SHORT).show();
+            String lat = String.valueOf(p.getLatitude());
+            String lon = String.valueOf(p.getLongitude());
             Marker mark = new Marker(map);
             mark.setPosition(p);
             mark.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
             mark.setIcon(getResources().getDrawable(R.drawable.ic_marker_foreground));
             map.getOverlays().add(mark);
             map.getController().animateTo(p);
+            Toast.makeText(getApplicationContext(),"CHECK", Toast.LENGTH_SHORT).show();
+            String closest_city_url = "https://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&appid=" + api_key;
+            JsonObjectRequest clicked_json = new JsonObjectRequest(closest_city_url, new Response.Listener<JSONObject>() {
+                @SuppressLint("SetTextI18n")
+                @Override
+                public void onResponse(JSONObject response) {
+                    Toast.makeText(MainActivity.this, "Response: " + String.valueOf(response), Toast.LENGTH_LONG).show();
+                    String city = null;
+                    double temp = 0;
+                    String description = null;
+                    int humidity = 0;
+                    String icon_code = null;
+                    String wind_speed = null;
+                    String cloudiness = null;
+                    try {
+                        JSONArray weather_array = response.getJSONArray("weather");
+                        JSONObject weatherobj = weather_array.getJSONObject(0);
+                        description = weatherobj.getString("description");
+                        icon_code = weatherobj.getString("icon");
+                        JSONObject mainobj = response.getJSONObject("main");
+                        temp = Math.round(mainobj.getDouble("temp") - 273.15);
+                        humidity = mainobj.getInt("humidity");
+                        JSONObject windobj = response.getJSONObject("wind");
+                        JSONObject cloudobj = response.getJSONObject("clouds");
+                        cloudiness = cloudobj.getString("all");
+                        wind_speed = windobj.getString("speed");
+                        city = response.getString("name");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    TextView city_text = (TextView) findViewById(R.id.City);
+                    city_text.setText(city);
+                    TextView temp_text = (TextView) findViewById(R.id.Temp);
+                    temp_text.setText("Temperature: " + String.valueOf(temp + "\u00B0") + "c");
+                    TextView description_text = (TextView) findViewById(R.id.Description);
+                    description_text.setText(description);
+                    TextView humidity_text = (TextView) findViewById(R.id.Humidity);
+                    humidity_text.setText("Humidity: " + humidity + "%");
+                    get_icon(icon_code);
+                    TextView wind_speed_text = (TextView) findViewById(R.id.Wind);
+                    wind_speed_text.setText("Wind Speed: " + wind_speed + "m/s");
+                    Toast.makeText(MainActivity.this, wind_speed + "WINDDD", Toast.LENGTH_SHORT).show();
+                    TextView cloud_text = (TextView) findViewById(R.id.Clouds);
+                    cloud_text.setText("Cloudiness: " + cloudiness + "%");
+                }
+            }, new Response.ErrorListener()
+
+            {
+                @Override
+                public void onErrorResponse (VolleyError error){
+                    Toast.makeText(getApplicationContext(), "Error Click: " + error.toString(), Toast.LENGTH_SHORT).show();
+                }
+            });
+            RequestQueue requestqueue = Volley.newRequestQueue(getApplicationContext());
+            requestqueue.add(clicked_json);
             return true;
         }
 
