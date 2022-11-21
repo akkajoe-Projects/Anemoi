@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     @SuppressLint("SetTextI18n")
                     @Override
                     public void onResponse(JSONObject response) {
-                        Toast.makeText(MainActivity.this, "Response: " + String.valueOf(response), Toast.LENGTH_LONG).show();
+//                        Toast.makeText(MainActivity.this, "Response: " + String.valueOf(response), Toast.LENGTH_LONG).show();
                         String city = null;
                         double temp = 0;
                         String description = null;
@@ -153,7 +153,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         get_icon(icon_code);
                         TextView wind_speed_text = (TextView) findViewById(R.id.Wind);
                         wind_speed_text.setText("Wind Speed: " + wind_speed + "m/s");
-                        Toast.makeText(MainActivity.this, wind_speed + "WINDDD", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(MainActivity.this, wind_speed + "WINDDD", Toast.LENGTH_SHORT).show();
                         TextView cloud_text = (TextView) findViewById(R.id.Clouds);
                         cloud_text.setText("Cloudiness: " + cloudiness + "%");
                     }
@@ -162,7 +162,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 {
                     @Override
                     public void onErrorResponse (VolleyError error){
-                        Toast.makeText(getApplicationContext(), "Error Click: " + error.toString(), Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getApplicationContext(), "Error Click: " + error.toString(), Toast.LENGTH_SHORT).show();
                     }
                 });
                 RequestQueue requestqueue = Volley.newRequestQueue(getApplicationContext());
@@ -175,7 +175,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         EditText city_input = (EditText) findViewById(R.id.city_input);
         String city = city_input.getText().toString();
         city_input.setText("");
-        Toast.makeText(MainActivity.this, city, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(MainActivity.this, city, Toast.LENGTH_SHORT).show();
         if (city.equals(" ")) {
             Toast.makeText(MainActivity.this, "EMPTY CITY", Toast.LENGTH_SHORT).show();
         }
@@ -198,7 +198,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void weatherhttp(String city) throws MalformedURLException {
         String base_url = "https://api.openweathermap.org/data/2.5/weather?q=";
         String url = base_url + city + "&appid=" + api_key;
-        Toast.makeText(MainActivity.this, url, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(MainActivity.this, url, Toast.LENGTH_SHORT).show();
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(url, new Response.Listener<JSONObject>() {
             @SuppressLint("SetTextI18n")
@@ -253,7 +253,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 get_icon(icon_code);
                 TextView wind_speed_text = (TextView) findViewById(R.id.Wind);
                 wind_speed_text.setText("Wind Speed: " + wind_speed + "m/s");
-                Toast.makeText(MainActivity.this, wind_speed + "WINDDD", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(MainActivity.this, wind_speed + "WINDDD", Toast.LENGTH_SHORT).show();
                 TextView cloud_text = (TextView) findViewById(R.id.Clouds);
                 cloud_text.setText("Cloudiness: " + cloudiness + "%");
 
@@ -262,7 +262,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getApplicationContext(), "Error: " + error.toString(), Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getApplicationContext(), "Error: " + error.toString(), Toast.LENGTH_SHORT).show();
                     }
                 });
         RequestQueue requestqueue = Volley.newRequestQueue(getApplicationContext());
@@ -286,7 +286,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mark.setInfoWindow(null);
     }
     public void get_icon(String icon_code) {
-        Toast.makeText(getApplicationContext(), icon_code, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getApplicationContext(), icon_code, Toast.LENGTH_SHORT).show();
         RequestQueue requestqueue = Volley.newRequestQueue(getApplicationContext());
         String icon_owp_url = "https://openweathermap.org/img/wn/" + icon_code + "@2x.png";
         int max_width = 300;
@@ -312,7 +312,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         @SuppressLint("UseCompatLoadingForDrawables")
         @Override
         public boolean singleTapConfirmedHelper (GeoPoint p){
-            Toast.makeText(getApplicationContext(), "LAT" + p.getLatitude() + "LONG" + p.getLatitude(), Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getApplicationContext(), "LAT" + p.getLatitude() + "LONG" + p.getLatitude(), Toast.LENGTH_SHORT).show();
             String lat = String.valueOf(p.getLatitude());
             String lon = String.valueOf(p.getLongitude());
             Marker mark = new Marker(map);
@@ -333,7 +333,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 @SuppressLint("SetTextI18n")
                 @Override
                 public void onResponse(JSONObject response) {
-                    Toast.makeText(MainActivity.this, "Response: " + String.valueOf(response), Toast.LENGTH_LONG).show();
+//                    Toast.makeText(MainActivity.this, "Response: " + String.valueOf(response), Toast.LENGTH_LONG).show();
                     String city = null;
                     double temp = 0;
                     String description = null;
@@ -368,7 +368,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     get_icon(icon_code);
                     TextView wind_speed_text = (TextView) findViewById(R.id.Wind);
                     wind_speed_text.setText("Wind Speed: " + wind_speed + "m/s");
-                    Toast.makeText(MainActivity.this, wind_speed + "WINDDD", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(MainActivity.this, wind_speed + "WINDDD", Toast.LENGTH_SHORT).show();
                     TextView cloud_text = (TextView) findViewById(R.id.Clouds);
                     cloud_text.setText("Cloudiness: " + cloudiness + "%");
                 }
