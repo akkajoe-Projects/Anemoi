@@ -1,9 +1,12 @@
 package com.example.weatherapp;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -34,6 +37,7 @@ import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.MapEventsOverlay;
 import org.osmdroid.views.overlay.Marker;
+import org.osmdroid.views.overlay.OverlayItem;
 import org.osmdroid.views.overlay.Polygon;
 
 import java.io.IOException;
@@ -239,12 +243,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+        @SuppressLint("UseCompatLoadingForDrawables")
         @Override
         public boolean singleTapConfirmedHelper (GeoPoint p){
             Toast.makeText(getApplicationContext(), "LAT" + p.getLatitude() + "LONG" + p.getLatitude(), Toast.LENGTH_SHORT).show();
             Marker mark = new Marker(map);
             mark.setPosition(p);
             mark.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+            mark.setIcon(getResources().getDrawable(R.drawable.ic_marker_foreground));
             map.getOverlays().add(mark);
             map.getController().animateTo(p);
             return true;
