@@ -5,6 +5,7 @@ import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -19,15 +20,21 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.spotify.sdk.android.auth.AuthorizationClient;
+import com.spotify.sdk.android.auth.AuthorizationRequest;
+import com.spotify.sdk.android.auth.AuthorizationResponse;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -46,7 +53,9 @@ import org.osmdroid.views.overlay.infowindow.InfoWindow;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, ButtonClick, MapEventsReceiver {
     public IMapController mapController;
@@ -55,6 +64,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public Button btn;
     public MapView map;
     List<Marker> marker_list = new ArrayList<Marker>();
+    String client_id= "bda9d827920c473c995b4beca05c0a58";
+    String redirect_uri= "https://open.spotify.com/";
+    private static final int request_code = 1337;
+    private static final String scopes = "user-read-recently-played,user-library-modify,user-read-email,user-read-private";
+    private static Intent intent;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,6 +127,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 live_marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
                 map.getOverlays().add(live_marker);
                 live_marker.setInfoWindow(null);
+                mapController.setZoom(15);
 
                 String closest_city_url = "https://api.openweathermap.org/data/2.5/weather?lat=" + Latitude + "&lon=" + Longitude + "&appid=" + api_key;
                 JsonObjectRequest live_json_data = new JsonObjectRequest(closest_city_url, new Response.Listener<JSONObject>() {
@@ -256,6 +272,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //                Toast.makeText(MainActivity.this, wind_speed + "WINDDD", Toast.LENGTH_SHORT).show();
                 TextView cloud_text = (TextView) findViewById(R.id.Clouds);
                 cloud_text.setText("Cloudiness: " + cloudiness + "%");
+//                spotify_playlist(description);
 
             }
         },
@@ -284,6 +301,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             marker_list.remove(0);
         }
         mark.setInfoWindow(null);
+        mapController.setZoom(15);
     }
     public void get_icon(String icon_code) {
 //        Toast.makeText(getApplicationContext(), icon_code, Toast.LENGTH_SHORT).show();
@@ -309,6 +327,61 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    public void spotify_playlist(String weather_description) {
+        String playlist_url = "https://api.spotify.com/v1/browse/categories/"+weather_description+"/playlists";
+        StringRequest stringRequest = new StringRequest(playlist_url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Toast.makeText(getApplicationContext(), "SPOTIFY AUTH RESPONSE"+response.toString(),Toast.LENGTH_SHORT).show();
+                Log.d("SPOTIFY RESPONSE", response.toString());
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(), "SPOTIFY AUTH Error: " + error.toString(), Toast.LENGTH_SHORT).show();
+                Log.d("SPOTIFY AUTH Error: ", error.toString());
+            }
+
+        });
+        RequestQueue requestqueue = Volley.newRequestQueue(getApplicationContext());
+        requestqueue.add(stringRequest);
+    }
+
+
+    public void spotify_authorization() {
+        final AuthorizationRequest request = new AuthorizationRequest.Builder(client_id, AuthorizationResponse.Type.TOKEN, redirect_uri)
+                .setScopes(new String[]{"user-read-private", "playlist-read", "playlist-read-private", "streaming"})
+                .build();
+
+        AuthorizationClient.openLoginActivity(this, request_code, request);
+
+    }protected void onActivityResult(int requestCode,int resultCode, Intent intent) {
+            super.onActivityResult(requestCode,resultCode, intent);
+
+            // Check if result comes from the correct activity
+            if (requestCode == request_code) {
+                AuthorizationResponse response = AuthorizationClient.getResponse(resultCode, intent);
+
+                switch (response.getType()) {
+                    // Response was successful and contains auth token
+                    case TOKEN:
+                        String token = response.getAccessToken();
+                        Toast.makeText(MainActivity.this,"TOKEN: "+token, Toast.LENGTH_SHORT).show();
+                        break;
+
+                    // Auth flow returned an error
+                    case ERROR:
+                        // Handle error response
+                        break;
+
+                    // Most likely auth flow was cancelled
+                    default:
+                        // Handle other cases
+                }
+            }
+        }
+
+
         @SuppressLint("UseCompatLoadingForDrawables")
         @Override
         public boolean singleTapConfirmedHelper (GeoPoint p){
@@ -327,6 +400,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 marker_list.remove(0);
             }
             mark.setInfoWindow(null);
+            mapController.setZoom(15);
 
             String closest_city_url = "https://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&appid=" + api_key;
             JsonObjectRequest clicked_json = new JsonObjectRequest(closest_city_url, new Response.Listener<JSONObject>() {
@@ -371,6 +445,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //                    Toast.makeText(MainActivity.this, wind_speed + "WINDDD", Toast.LENGTH_SHORT).show();
                     TextView cloud_text = (TextView) findViewById(R.id.Clouds);
                     cloud_text.setText("Cloudiness: " + cloudiness + "%");
+                    spotify_authorization();
                 }
             }, new Response.ErrorListener()
 
@@ -391,4 +466,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Toast.makeText(getApplicationContext(), "Long press", Toast.LENGTH_SHORT).show();
             return false;
         }
+
+
+
     }
