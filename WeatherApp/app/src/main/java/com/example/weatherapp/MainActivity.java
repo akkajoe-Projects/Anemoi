@@ -328,11 +328,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void spotify_playlist(String weather_description) {
-        String playlist_url = "https://api.spotify.com/v1/browse/categories/"+weather_description+"/playlists";
+        String playlist_url = "https://api.spotify.com/v1/browse/categories/" + weather_description + "/playlists";
         StringRequest stringRequest = new StringRequest(playlist_url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Toast.makeText(getApplicationContext(), "SPOTIFY AUTH RESPONSE"+response.toString(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "SPOTIFY AUTH RESPONSE" + response.toString(), Toast.LENGTH_SHORT).show();
                 Log.d("SPOTIFY RESPONSE", response.toString());
             }
         }, new Response.ErrorListener() {
@@ -342,7 +342,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Log.d("SPOTIFY AUTH Error: ", error.toString());
             }
 
-        });
+        }) { @Override
+                public Map<String, String> getHeaders() throws AuthFailureError{
+                Map<String,String> params = new HashMap<String, String>();
+                params.put("Authorization","Bearer token");
+                params.put("Content-Type","application/json");
+
+                return params;
+        }
+    };
         RequestQueue requestqueue = Volley.newRequestQueue(getApplicationContext());
         requestqueue.add(stringRequest);
     }
