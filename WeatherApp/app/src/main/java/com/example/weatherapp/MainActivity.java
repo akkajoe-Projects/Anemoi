@@ -69,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final int request_code = 1337;
     private static final String scopes = "user-read-recently-played,user-library-modify,user-read-email,user-read-private";
     private static Intent intent;
+    public String weather_description="";
 
 
     @Override
@@ -137,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //                        Toast.makeText(MainActivity.this, "Response: " + String.valueOf(response), Toast.LENGTH_LONG).show();
                         String city = null;
                         double temp = 0;
-                        String description = null;
+                        String weather_description = null;
                         int humidity = 0;
                         String icon_code = null;
                         String wind_speed = null;
@@ -145,7 +146,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         try {
                             JSONArray weather_array = response.getJSONArray("weather");
                             JSONObject weatherobj = weather_array.getJSONObject(0);
-                            description = weatherobj.getString("description");
+                            weather_description = weatherobj.getString("description");
                             icon_code = weatherobj.getString("icon");
                             JSONObject mainobj = response.getJSONObject("main");
                             temp = Math.round(mainobj.getDouble("temp") - 273.15);
@@ -163,7 +164,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         TextView temp_text = (TextView) findViewById(R.id.Temp);
                         temp_text.setText("Temperature: " + String.valueOf(temp + "\u00B0") + "c");
                         TextView description_text = (TextView) findViewById(R.id.Description);
-                        description_text.setText(description);
+                        description_text.setText(weather_description);
                         TextView humidity_text = (TextView) findViewById(R.id.Humidity);
                         humidity_text.setText("Humidity: " + humidity + "%");
                         get_icon(icon_code);
@@ -223,7 +224,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 double double_long = 0;
                 double double_lat = 0;
                 double temp = 0;
-                String description = "";
+                String weather_description = "";
                 int humidity = 0;
                 String icon_code = "";
                 String wind_speed = "";
@@ -237,7 +238,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     String map3 = String.valueOf(map);
                     JSONArray jsonArray = response.getJSONArray("weather");
                     JSONObject weatherobj = jsonArray.getJSONObject(0);
-                    description = weatherobj.getString("description");
+                    weather_description = weatherobj.getString("description");
                     icon_code = weatherobj.getString("icon");
                     JSONObject mainobj = response.getJSONObject("main");
                     temp = Math.round(mainobj.getDouble("temp") - 273.15);
@@ -263,7 +264,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 TextView temp_text = (TextView) findViewById(R.id.Temp);
                 temp_text.setText("Temperature: " + String.valueOf(temp + "\u00B0") + "c");
                 TextView description_text = (TextView) findViewById(R.id.Description);
-                description_text.setText(description);
+                description_text.setText(weather_description);
                 TextView humidity_text = (TextView) findViewById(R.id.Humidity);
                 humidity_text.setText("Humidity: " + humidity + "%");
                 get_icon(icon_code);
@@ -327,7 +328,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    public void spotify_playlist(String weather_description) {
+    public void spotify_playlist(String token) {
         String playlist_url = "https://api.spotify.com/v1/browse/categories/" + weather_description + "/playlists";
         StringRequest stringRequest = new StringRequest(playlist_url, new Response.Listener<String>() {
             @Override
@@ -343,14 +344,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
 
         }) { @Override
-                public Map<String, String> getHeaders() throws AuthFailureError{
-                Map<String,String> params = new HashMap<String, String>();
-                params.put("Authorization","Bearer token");
-                params.put("Content-Type","application/json");
+        public Map<String, String> getHeaders() throws AuthFailureError{
+            Map<String,String> params = new HashMap<String, String>();
+            params.put("Authorization","Bearer "+ token);
+            params.put("Content-Type","application/json");
 
-                return params;
+            return params;
         }
-    };
+        };
         RequestQueue requestqueue = Volley.newRequestQueue(getApplicationContext());
         requestqueue.add(stringRequest);
     }
@@ -364,117 +365,118 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         AuthorizationClient.openLoginActivity(this, request_code, request);
 
     }protected void onActivityResult(int requestCode,int resultCode, Intent intent) {
-            super.onActivityResult(requestCode,resultCode, intent);
+        super.onActivityResult(requestCode,resultCode, intent);
 
-            // Check if result comes from the correct activity
-            if (requestCode == request_code) {
-                AuthorizationResponse response = AuthorizationClient.getResponse(resultCode, intent);
+        // Check if result comes from the correct activity
+        if (requestCode == request_code) {
+            AuthorizationResponse response = AuthorizationClient.getResponse(resultCode, intent);
 
-                switch (response.getType()) {
-                    // Response was successful and contains auth token
-                    case TOKEN:
-                        String token = response.getAccessToken();
-                        Toast.makeText(MainActivity.this,"TOKEN: "+token, Toast.LENGTH_SHORT).show();
-                        break;
+            switch (response.getType()) {
+                // Response was successful and contains auth token
+                case TOKEN:
+                    String token = response.getAccessToken();
+                    Toast.makeText(MainActivity.this,"TOKEN: "+token, Toast.LENGTH_SHORT).show();
+                    spotify_playlist(token);
+                    break;
 
-                    // Auth flow returned an error
-                    case ERROR:
-                        // Handle error response
-                        break;
+                // Auth flow returned an error
+                case ERROR:
+                    // Handle error response
+                    break;
 
-                    // Most likely auth flow was cancelled
-                    default:
-                        // Handle other cases
-                }
+                // Most likely auth flow was cancelled
+                default:
+                    // Handle other cases
             }
         }
-
-
-        @SuppressLint("UseCompatLoadingForDrawables")
-        @Override
-        public boolean singleTapConfirmedHelper (GeoPoint p){
-//            Toast.makeText(getApplicationContext(), "LAT" + p.getLatitude() + "LONG" + p.getLatitude(), Toast.LENGTH_SHORT).show();
-            String lat = String.valueOf(p.getLatitude());
-            String lon = String.valueOf(p.getLongitude());
-            Marker mark = new Marker(map);
-            mark.setPosition(p);
-            mark.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-            mark.setIcon(getResources().getDrawable(R.drawable.ic_marker_foreground));
-            map.getOverlays().add(mark);
-            map.getController().animateTo(p);
-            marker_list.add(mark);
-            if (marker_list.size()!=1) {
-                marker_list.get(0).remove(map);
-                marker_list.remove(0);
-            }
-            mark.setInfoWindow(null);
-            mapController.setZoom(15);
-
-            String closest_city_url = "https://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&appid=" + api_key;
-            JsonObjectRequest clicked_json = new JsonObjectRequest(closest_city_url, new Response.Listener<JSONObject>() {
-                @SuppressLint("SetTextI18n")
-                @Override
-                public void onResponse(JSONObject response) {
-//                    Toast.makeText(MainActivity.this, "Response: " + String.valueOf(response), Toast.LENGTH_LONG).show();
-                    String city = null;
-                    double temp = 0;
-                    String description = null;
-                    int humidity = 0;
-                    String icon_code = null;
-                    String wind_speed = null;
-                    String cloudiness = null;
-                    try {
-                        JSONArray weather_array = response.getJSONArray("weather");
-                        JSONObject weatherobj = weather_array.getJSONObject(0);
-                        description = weatherobj.getString("description");
-                        icon_code = weatherobj.getString("icon");
-                        JSONObject mainobj = response.getJSONObject("main");
-                        temp = Math.round(mainobj.getDouble("temp") - 273.15);
-                        humidity = mainobj.getInt("humidity");
-                        JSONObject windobj = response.getJSONObject("wind");
-                        JSONObject cloudobj = response.getJSONObject("clouds");
-                        cloudiness = cloudobj.getString("all");
-                        wind_speed = windobj.getString("speed");
-                        city = response.getString("name");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    TextView city_text = (TextView) findViewById(R.id.City);
-                    city_text.setText(city);
-                    TextView temp_text = (TextView) findViewById(R.id.Temp);
-                    temp_text.setText("Temperature: " + String.valueOf(temp + "\u00B0") + "c");
-                    TextView description_text = (TextView) findViewById(R.id.Description);
-                    description_text.setText(description);
-                    TextView humidity_text = (TextView) findViewById(R.id.Humidity);
-                    humidity_text.setText("Humidity: " + humidity + "%");
-                    get_icon(icon_code);
-                    TextView wind_speed_text = (TextView) findViewById(R.id.Wind);
-                    wind_speed_text.setText("Wind Speed: " + wind_speed + "m/s");
-//                    Toast.makeText(MainActivity.this, wind_speed + "WINDDD", Toast.LENGTH_SHORT).show();
-                    TextView cloud_text = (TextView) findViewById(R.id.Clouds);
-                    cloud_text.setText("Cloudiness: " + cloudiness + "%");
-                    spotify_authorization();
-                }
-            }, new Response.ErrorListener()
-
-            {
-                @Override
-                public void onErrorResponse (VolleyError error){
-                    Toast.makeText(getApplicationContext(), "Error Click: " + error.toString(), Toast.LENGTH_SHORT).show();
-                }
-            });
-            RequestQueue requestqueue = Volley.newRequestQueue(getApplicationContext());
-            requestqueue.add(clicked_json);
-            InfoWindow.closeAllInfoWindowsOn(map);
-            return true;
-        }
-
-        @Override
-        public boolean longPressHelper (GeoPoint p){
-            Toast.makeText(getApplicationContext(), "Long press", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-
-
-
     }
+
+
+    @SuppressLint("UseCompatLoadingForDrawables")
+    @Override
+    public boolean singleTapConfirmedHelper (GeoPoint p){
+//            Toast.makeText(getApplicationContext(), "LAT" + p.getLatitude() + "LONG" + p.getLatitude(), Toast.LENGTH_SHORT).show();
+        String lat = String.valueOf(p.getLatitude());
+        String lon = String.valueOf(p.getLongitude());
+        Marker mark = new Marker(map);
+        mark.setPosition(p);
+        mark.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+        mark.setIcon(getResources().getDrawable(R.drawable.ic_marker_foreground));
+        map.getOverlays().add(mark);
+        map.getController().animateTo(p);
+        marker_list.add(mark);
+        if (marker_list.size()!=1) {
+            marker_list.get(0).remove(map);
+            marker_list.remove(0);
+        }
+        mark.setInfoWindow(null);
+        mapController.setZoom(15);
+
+        String closest_city_url = "https://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&appid=" + api_key;
+        JsonObjectRequest clicked_json = new JsonObjectRequest(closest_city_url, new Response.Listener<JSONObject>() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onResponse(JSONObject response) {
+//                    Toast.makeText(MainActivity.this, "Response: " + String.valueOf(response), Toast.LENGTH_LONG).show();
+                String city = null;
+                double temp = 0;
+                String weather_description = null;
+                int humidity = 0;
+                String icon_code = null;
+                String wind_speed = null;
+                String cloudiness = null;
+                try {
+                    JSONArray weather_array = response.getJSONArray("weather");
+                    JSONObject weatherobj = weather_array.getJSONObject(0);
+                    weather_description = weatherobj.getString("description");
+                    icon_code = weatherobj.getString("icon");
+                    JSONObject mainobj = response.getJSONObject("main");
+                    temp = Math.round(mainobj.getDouble("temp") - 273.15);
+                    humidity = mainobj.getInt("humidity");
+                    JSONObject windobj = response.getJSONObject("wind");
+                    JSONObject cloudobj = response.getJSONObject("clouds");
+                    cloudiness = cloudobj.getString("all");
+                    wind_speed = windobj.getString("speed");
+                    city = response.getString("name");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                TextView city_text = (TextView) findViewById(R.id.City);
+                city_text.setText(city);
+                TextView temp_text = (TextView) findViewById(R.id.Temp);
+                temp_text.setText("Temperature: " + String.valueOf(temp + "\u00B0") + "c");
+                TextView description_text = (TextView) findViewById(R.id.Description);
+                description_text.setText(weather_description);
+                TextView humidity_text = (TextView) findViewById(R.id.Humidity);
+                humidity_text.setText("Humidity: " + humidity + "%");
+                get_icon(icon_code);
+                TextView wind_speed_text = (TextView) findViewById(R.id.Wind);
+                wind_speed_text.setText("Wind Speed: " + wind_speed + "m/s");
+//                    Toast.makeText(MainActivity.this, wind_speed + "WINDDD", Toast.LENGTH_SHORT).show();
+                TextView cloud_text = (TextView) findViewById(R.id.Clouds);
+                cloud_text.setText("Cloudiness: " + cloudiness + "%");
+                spotify_authorization();
+            }
+        }, new Response.ErrorListener()
+
+        {
+            @Override
+            public void onErrorResponse (VolleyError error){
+                Toast.makeText(getApplicationContext(), "Error Click: " + error.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
+        RequestQueue requestqueue = Volley.newRequestQueue(getApplicationContext());
+        requestqueue.add(clicked_json);
+        InfoWindow.closeAllInfoWindowsOn(map);
+        return true;
+    }
+
+    @Override
+    public boolean longPressHelper (GeoPoint p){
+        Toast.makeText(getApplicationContext(), "Long press", Toast.LENGTH_SHORT).show();
+        return false;
+    }
+
+
+
+}
