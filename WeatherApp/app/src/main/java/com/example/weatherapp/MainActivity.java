@@ -462,7 +462,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @SuppressLint("SetTextI18n")
             @Override
             public void onResponse(JSONObject response) {
-//                    Toast.makeText(MainActivity.this, "Response: " + String.valueOf(response), Toast.LENGTH_LONG).show();
                 String city = null;
                 double temp = 0;
                 String weather_description = null;
