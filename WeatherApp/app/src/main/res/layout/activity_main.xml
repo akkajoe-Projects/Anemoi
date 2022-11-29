@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/MusicIcon"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
@@ -27,6 +28,7 @@
         android:id="@+id/button"
         android:layout_width="70dp"
         android:layout_height="50dp"
+        android:onClick="city_name"
         android:text=""
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -34,7 +36,6 @@
         app:layout_constraintStart_toEndOf="@+id/city_input"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
-        android:onClick="city_name"
         tools:ignore="SpeakableTextPresentCheck" />
 
     <FrameLayout
@@ -76,20 +77,20 @@
             android:id="@+id/City"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
             android:layout_alignParentTop="true"
+            android:layout_centerInParent="true"
             android:gravity="center"
-            android:textSize="35sp"
-            android:text="" />
+            android:text=""
+            android:textSize="35sp" />
 
         <TextView
             android:id="@+id/Temp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/Description"
-            android:paddingLeft="30dp"
             android:autoText="false"
             android:clickable="false"
+            android:paddingLeft="30dp"
             android:text=""
             android:textAlignment="textEnd" />
 
@@ -97,8 +98,8 @@
             android:id="@+id/Description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
             android:layout_below="@id/City"
+            android:layout_centerInParent="true"
             android:text="" />
 
         <TextView
@@ -132,6 +133,19 @@
             android:paddingLeft="30dp"
             android:text="" />
 
+        <pl.droidsonroids.gif.GifImageView
+            android:id="@+id/MusicIcongif"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_below="@+id/Description"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="40dp"
+            android:layout_marginBottom="40dp"
+            android:onClick="music_sugg"
+            android:src="@drawable/music" />
+
+
     </RelativeLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

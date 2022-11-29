@@ -61,6 +61,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.IntStream;
 
+import pl.droidsonroids.gif.GifImageView;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, ButtonClick, MapEventsReceiver {
     public IMapController mapController;
     public FusedLocationProviderClient fusedLocationClient;
@@ -74,6 +76,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final String scopes = "user-read-recently-played user-library-modify user-read-email user-read-private";
     private static Intent intent;
     public String weather_description="";
+    private GifImageView music_icon;
+
 
 
     @Override
@@ -94,6 +98,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mapController.setZoom(10);
         btn = findViewById(R.id.button);
         btn.setOnClickListener(this);
+
+        //Music suggestion stuff
+        music_icon = findViewById(R.id.MusicIcongif);
+        music_icon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                music_sugg();
+            }
+        });
+
 
         try {
             getLastLocation(map, ctx);
@@ -202,6 +216,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         weatherhttp(city);
 
+    }
+
+    public void music_sugg() {
+        Intent intent = new Intent(this, MainActivity2.class);
+        startActivity(intent);
     }
 
     @SuppressLint("NonConstantResourceId")
