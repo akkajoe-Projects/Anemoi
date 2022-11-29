@@ -53,7 +53,9 @@ import org.osmdroid.views.overlay.infowindow.InfoWindow;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.Dictionary;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -335,8 +337,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         JsonObjectRequest JSONRequest = new JsonObjectRequest(playlist_url, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                Dictionary<String,String> tracks_dict = new Hashtable<String, String>();
                 JSONArray items = new JSONArray();
                 ArrayList<String> artist_list = new ArrayList<String>();
+                ArrayList<String> song_list = new ArrayList<String>();
                 JSONObject items_json = null;
                 JSONObject track = null;
                 JSONArray artists_array = null;
@@ -357,32 +361,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         artists_jsonobject = artists_array.getJSONObject(0);
                         artist_name = artists_jsonobject.getString("name");
                         artist_list.add(artist_name);
+                        song = track.getString("name");
+                        song_list.add(song);
+                        tracks_dict.put(song,artist_name);
                     }
                    }
                  catch (JSONException e) {
                     e.printStackTrace();
                 }
-                Log.d("ArrayList", String.valueOf(artist_list));
-//
-//                    track_json = items_json.getJSONObject("track");
-//                    artists = track_json.getJSONArray("artists");
-//                    artists_dict = artists.getJSONObject(0);
-//                    artist_name = artists_dict.getString("name");
-//                    song = track_json.getString("name");
-//                    items_elements = items_json.names();
-//                    track_dict_elements = track_json.names();
+                Log.d("Artists List", String.valueOf(artist_list));
                 Log.d("check",new String("check"));
                 Log.d("ITEMS JSON", String.valueOf(items_json));
-                //                Log.d("ARRAY", String.valueOf(listdata));
-//                Log.d("ITEMS", String.valueOf(items));
                 Log.d("TRACK", String.valueOf(track));
-//                Log.d("TRACK DICT", String.valueOf(track_json));
                 Log.d("Artists Array", String.valueOf(artists_array));
                 Log.d("Artists dict",String.valueOf(artists_jsonobject));
                 Log.d("Artist name", artist_name);
-//                Log.d("ALBUM", song);
-//                Log.d("ITEMS ELEMENTS", String.valueOf(items_elements));
-//                Log.d("TRACK DICT ELEMENTS", String.valueOf(track_dict_elements));
+                Log.d("SONG", song);
+                Log.d("Song list", String.valueOf(song_list));
+                Log.d("tracks_dict", String.valueOf(tracks_dict));
 
             }
         }, new Response.ErrorListener() {
