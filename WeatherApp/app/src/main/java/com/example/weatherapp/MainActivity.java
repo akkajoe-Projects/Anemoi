@@ -77,6 +77,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static Intent intent;
     public String weather_description="";
     private GifImageView music_icon;
+    public ArrayList<String> artist_list = new ArrayList<String>();
+    public ArrayList<String> song_list = new ArrayList<String>();
 
 
 
@@ -219,8 +221,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void music_sugg() {
-        Intent intent = new Intent(this, MainActivity2.class);
-        startActivity(intent);
+        Intent intent2 = new Intent(this, MainActivity2.class);
+        intent2.putExtra("Artist List", artist_list);
+        intent2.putExtra("Song List", song_list);
+        startActivity(intent2);
     }
 
     @SuppressLint("NonConstantResourceId")
@@ -358,8 +362,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onResponse(JSONObject response) {
                 Dictionary<String,String> tracks_dict = new Hashtable<String, String>();
                 JSONArray items = new JSONArray();
-                ArrayList<String> artist_list = new ArrayList<String>();
-                ArrayList<String> song_list = new ArrayList<String>();
                 JSONObject items_json = null;
                 JSONObject track = null;
                 JSONArray artists_array = null;
@@ -388,6 +390,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                  catch (JSONException e) {
                     e.printStackTrace();
                 }
+
                 Log.d("Artists List", String.valueOf(artist_list));
                 Log.d("check",new String("check"));
                 Log.d("ITEMS JSON", String.valueOf(items_json));

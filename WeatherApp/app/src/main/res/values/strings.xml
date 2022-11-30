@@ -4,4 +4,5 @@
     <string name="button">Enter</string>
     <string name="open_weather_maps_app_id">6e6bd91309b9b77588424036888993a5</string>
     <string name="place_not_found">Sorry, no weather data found.</string>
+    <string name="HEADING">HEADING</string>
 </resources>
