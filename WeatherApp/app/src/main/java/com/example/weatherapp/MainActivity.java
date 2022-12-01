@@ -59,6 +59,7 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.IntStream;
 
 import pl.droidsonroids.gif.GifImageView;
@@ -79,6 +80,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private GifImageView music_icon;
     public ArrayList<String> artist_list = new ArrayList<String>();
     public ArrayList<String> song_list = new ArrayList<String>();
+    public String main_string="";
 
 
 
@@ -169,6 +171,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             weather_description = weatherobj.getString("description");
                             icon_code = weatherobj.getString("icon");
                             JSONObject mainobj = response.getJSONObject("main");
+                            main_string = weatherobj.getString("main");
                             temp = Math.round(mainobj.getDouble("temp") - 273.15);
                             humidity = mainobj.getInt("humidity");
                             JSONObject windobj = response.getJSONObject("wind");
@@ -179,6 +182,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+                        Toast.makeText(MainActivity.this,"MAIN "+ main_string,Toast.LENGTH_SHORT).show();
                         TextView city_text = (TextView) findViewById(R.id.City);
                         city_text.setText(city);
                         TextView temp_text = (TextView) findViewById(R.id.Temp);
@@ -193,6 +197,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //                        Toast.makeText(MainActivity.this, wind_speed + "WINDDD", Toast.LENGTH_SHORT).show();
                         TextView cloud_text = (TextView) findViewById(R.id.Clouds);
                         cloud_text.setText("Cloudiness: " + cloudiness + "%");
+
                     }
                 }, new Response.ErrorListener()
 
@@ -204,8 +209,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 });
                 RequestQueue requestqueue = Volley.newRequestQueue(getApplicationContext());
                 requestqueue.add(live_json_data);
+
             }
         });
+        spotify_authorization();
     }
 
     public void city_name(Context ctx) throws IOException {
@@ -222,6 +229,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void music_sugg() {
         Intent intent2 = new Intent(this, MainActivity2.class);
+        Toast.makeText(this,"ARTISTLIST",Toast.LENGTH_SHORT).show();
         intent2.putExtra("Artist List", artist_list);
         intent2.putExtra("Song List", song_list);
         startActivity(intent2);
@@ -356,71 +364,283 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void spotify_playlist(String token) {
-        String playlist_url = "https://api.spotify.com/v1/playlists/1VOREp7qG3Jen3Mpgdus41/tracks";
-        JsonObjectRequest JSONRequest = new JsonObjectRequest(playlist_url, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                Dictionary<String,String> tracks_dict = new Hashtable<String, String>();
-                JSONArray items = new JSONArray();
-                JSONObject items_json = null;
-                JSONObject track = null;
-                JSONArray artists_array = null;
-                JSONObject artists_jsonobject = null;
-                JSONArray items_elements = null;
-                String artist_name = "";
-                String song = "";
-                JSONArray track_dict_elements = null;
-                Toast.makeText(getApplicationContext(), "SPOTIFY AUTH RESPONSE" + response.toString(), Toast.LENGTH_SHORT).show();
-                Log.d("SPOTIFY RESPONSE", response.toString());
-                Log.d("Key", String.valueOf(response.names()));
-                try {
-                    items = response.getJSONArray("items");
-                    for (int i = 0; i<32; i++) {
-                        items_json = items.getJSONObject(i);
-                        track = items_json.getJSONObject("track");
-                        artists_array = track.getJSONArray("artists");
-                        artists_jsonobject = artists_array.getJSONObject(0);
-                        artist_name = artists_jsonobject.getString("name");
-                        artist_list.add(artist_name);
-                        song = track.getString("name");
-                        song_list.add(song);
-                        tracks_dict.put(song,artist_name);
+        Toast.makeText(MainActivity.this,"MAIN IN SPOTIFY PPLAYLIST"+main_string, Toast.LENGTH_SHORT).show();
+        // Replace weather_description with main object
+        if (Objects.equals(main_string, "Drizzle") || Objects.equals(main_string, "Rain") || Objects.equals(main_string, "Thunderstorm")) {
+            Toast.makeText(this, "INSODE CONDITION", Toast.LENGTH_SHORT).show();
+            String playlist_url = "https://api.spotify.com/v1/playlists/1VOREp7qG3Jen3Mpgdus41/tracks";
+            JsonObjectRequest JSONRequest = new JsonObjectRequest(playlist_url, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    Dictionary<String, String> tracks_dict = new Hashtable<String, String>();
+                    JSONArray items = new JSONArray();
+                    JSONObject items_json = null;
+                    JSONObject track = null;
+                    JSONArray artists_array = null;
+                    JSONObject artists_jsonobject = null;
+                    JSONArray items_elements = null;
+                    String artist_name = "";
+                    String song = "";
+                    JSONArray track_dict_elements = null;
+                    Toast.makeText(getApplicationContext(), "SPOTIFY AUTH RESPONSE" + response.toString(), Toast.LENGTH_SHORT).show();
+                    Log.d("SPOTIFY RESPONSE", response.toString());
+                    Log.d("Key", String.valueOf(response.names()));
+                    try {
+                        items = response.getJSONArray("items");
+                        for (int i = 0; i < 32; i++) {
+                            items_json = items.getJSONObject(i);
+                            track = items_json.getJSONObject("track");
+                            artists_array = track.getJSONArray("artists");
+                            artists_jsonobject = artists_array.getJSONObject(0);
+                            artist_name = artists_jsonobject.getString("name");
+                            artist_list.add(artist_name);
+                            song = track.getString("name");
+                            song_list.add(song);
+                            tracks_dict.put(song, artist_name);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                   }
-                 catch (JSONException e) {
-                    e.printStackTrace();
+
+                    Log.d("Artists List", String.valueOf(artist_list));
+                    Log.d("check", new String("check"));
+                    Log.d("ITEMS JSON", String.valueOf(items_json));
+                    Log.d("TRACK", String.valueOf(track));
+                    Log.d("Artists Array", String.valueOf(artists_array));
+                    Log.d("Artists dict", String.valueOf(artists_jsonobject));
+                    Log.d("Artist name", artist_name);
+                    Log.d("SONG", song);
+                    Log.d("Song list", String.valueOf(song_list));
+                    Log.d("tracks_dict", String.valueOf(tracks_dict));
+
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(getApplicationContext(), "SPOTIFY AUTH Error: " + error.toString(), Toast.LENGTH_SHORT).show();
+                    Log.d("SPOTIFY AUTH Error: ", error.toString());
                 }
 
-                Log.d("Artists List", String.valueOf(artist_list));
-                Log.d("check",new String("check"));
-                Log.d("ITEMS JSON", String.valueOf(items_json));
-                Log.d("TRACK", String.valueOf(track));
-                Log.d("Artists Array", String.valueOf(artists_array));
-                Log.d("Artists dict",String.valueOf(artists_jsonobject));
-                Log.d("Artist name", artist_name);
-                Log.d("SONG", song);
-                Log.d("Song list", String.valueOf(song_list));
-                Log.d("tracks_dict", String.valueOf(tracks_dict));
+            }) {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("Authorization", "Bearer " + token);
+                    params.put("Content-Type", "application/json");
 
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getApplicationContext(), "SPOTIFY AUTH Error: " + error.toString(), Toast.LENGTH_SHORT).show();
-                Log.d("SPOTIFY AUTH Error: ", error.toString());
-            }
-
-        }) { @Override
-        public Map<String, String> getHeaders() throws AuthFailureError{
-            Map<String,String> params = new HashMap<String, String>();
-            params.put("Authorization","Bearer "+ token);
-            params.put("Content-Type","application/json");
-
-            return params;
+                    return params;
+                }
+            };
+            RequestQueue requestqueue = Volley.newRequestQueue(getApplicationContext());
+            requestqueue.add(JSONRequest);
         }
-        };
-        RequestQueue requestqueue = Volley.newRequestQueue(getApplicationContext());
-        requestqueue.add(JSONRequest);
+
+        if (Objects.equals(main_string, "Clear")) {
+            Toast.makeText(MainActivity.this,"INSIDE CLEAR", Toast.LENGTH_SHORT).show();
+            Log.d("INSIDE MIST", "mistttt");
+            String playlist_url = "https://api.spotify.com/v1/playlists/1ioN4Mwrv6G7DGP2indDqK/tracks";
+            JsonObjectRequest JSONRequest = new JsonObjectRequest(playlist_url, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    Dictionary<String, String> tracks_dict = new Hashtable<String, String>();
+                    JSONArray items = new JSONArray();
+                    JSONObject items_json = null;
+                    JSONObject track = null;
+                    JSONArray artists_array = null;
+                    JSONObject artists_jsonobject = null;
+                    JSONArray items_elements = null;
+                    String artist_name = "";
+                    String song = "";
+                    JSONArray track_dict_elements = null;
+                    Toast.makeText(getApplicationContext(), "SPOTIFY AUTH RESPONSE" + response.toString(), Toast.LENGTH_SHORT).show();
+                    Log.d("SPOTIFY RESPONSE", response.toString());
+                    Log.d("Key", String.valueOf(response.names()));
+                    try {
+                        items = response.getJSONArray("items");
+                        for (int i = 0; i < 657; i++) {
+                            items_json = items.getJSONObject(i);
+                            track = items_json.getJSONObject("track");
+                            artists_array = track.getJSONArray("artists");
+                            artists_jsonobject = artists_array.getJSONObject(0);
+                            artist_name = artists_jsonobject.getString("name");
+                            artist_list.add(artist_name);
+                            song = track.getString("name");
+                            song_list.add(song);
+                            tracks_dict.put(song, artist_name);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    Log.d("Artists List", String.valueOf(artist_list));
+                    Log.d("check", new String("check"));
+                    Log.d("ITEMS JSON", String.valueOf(items_json));
+                    Log.d("TRACK", String.valueOf(track));
+                    Log.d("Artists Array", String.valueOf(artists_array));
+                    Log.d("Artists dict", String.valueOf(artists_jsonobject));
+                    Log.d("Artist name", artist_name);
+                    Log.d("SONG", song);
+                    Log.d("Song list", String.valueOf(song_list));
+                    Log.d("tracks_dict", String.valueOf(tracks_dict));
+
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(getApplicationContext(), "SPOTIFY AUTH Error: " + error.toString(), Toast.LENGTH_SHORT).show();
+                    Log.d("SPOTIFY AUTH Error: ", error.toString());
+                }
+
+            }) {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("Authorization", "Bearer " + token);
+                    params.put("Content-Type", "application/json");
+
+                    return params;
+                }
+            };
+            RequestQueue requestqueue = Volley.newRequestQueue(getApplicationContext());
+            requestqueue.add(JSONRequest);
+        }
+
+        if(Objects.equals(main_string, "Clouds")) {
+            String playlist_url = "https://api.spotify.com/v1/playlists/6RQviMFQJQZHPiefQYJMfL/tracks";
+            JsonObjectRequest JSONRequest = new JsonObjectRequest(playlist_url, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    Dictionary<String, String> tracks_dict = new Hashtable<String, String>();
+                    JSONArray items = new JSONArray();
+                    JSONObject items_json = null;
+                    JSONObject track = null;
+                    JSONArray artists_array = null;
+                    JSONObject artists_jsonobject = null;
+                    JSONArray items_elements = null;
+                    String artist_name = "";
+                    String song = "";
+                    JSONArray track_dict_elements = null;
+                    Toast.makeText(getApplicationContext(), "SPOTIFY AUTH RESPONSE" + response.toString(), Toast.LENGTH_SHORT).show();
+                    Log.d("SPOTIFY RESPONSE", response.toString());
+                    Log.d("Key", String.valueOf(response.names()));
+                    try {
+                        items = response.getJSONArray("items");
+                        for (int i = 0; i < 89; i++) {
+                            items_json = items.getJSONObject(i);
+                            track = items_json.getJSONObject("track");
+                            artists_array = track.getJSONArray("artists");
+                            artists_jsonobject = artists_array.getJSONObject(0);
+                            artist_name = artists_jsonobject.getString("name");
+                            artist_list.add(artist_name);
+                            song = track.getString("name");
+                            song_list.add(song);
+                            tracks_dict.put(song, artist_name);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    Log.d("Artists List", String.valueOf(artist_list));
+                    Log.d("check", new String("check"));
+                    Log.d("ITEMS JSON", String.valueOf(items_json));
+                    Log.d("TRACK", String.valueOf(track));
+                    Log.d("Artists Array", String.valueOf(artists_array));
+                    Log.d("Artists dict", String.valueOf(artists_jsonobject));
+                    Log.d("Artist name", artist_name);
+                    Log.d("SONG", song);
+                    Log.d("Song list", String.valueOf(song_list));
+                    Log.d("tracks_dict", String.valueOf(tracks_dict));
+
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(getApplicationContext(), "SPOTIFY AUTH Error: " + error.toString(), Toast.LENGTH_SHORT).show();
+                    Log.d("SPOTIFY AUTH Error: ", error.toString());
+                }
+
+            }) {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("Authorization", "Bearer " + token);
+                    params.put("Content-Type", "application/json");
+
+                    return params;
+                }
+            };
+            RequestQueue requestqueue = Volley.newRequestQueue(getApplicationContext());
+            requestqueue.add(JSONRequest);
+        }
+
+        if(Objects.equals(main_string, "Mist")) {
+            String playlist_url = "https://api.spotify.com/v1/playlists/5oe6cUg1iDPpsIcdWzJV7M/tracks";
+            JsonObjectRequest JSONRequest = new JsonObjectRequest(playlist_url, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    Dictionary<String, String> tracks_dict = new Hashtable<String, String>();
+                    JSONArray items = new JSONArray();
+                    JSONObject items_json = null;
+                    JSONObject track = null;
+                    JSONArray artists_array = null;
+                    JSONObject artists_jsonobject = null;
+                    JSONArray items_elements = null;
+                    String artist_name = "";
+                    String song = "";
+                    JSONArray track_dict_elements = null;
+                    Toast.makeText(getApplicationContext(), "SPOTIFY AUTH RESPONSE" + response.toString(), Toast.LENGTH_SHORT).show();
+                    Log.d("SPOTIFY RESPONSE", response.toString());
+                    Log.d("Key", String.valueOf(response.names()));
+                    try {
+                        items = response.getJSONArray("items");
+                        for (int i = 0; i < 18; i++) {
+                            items_json = items.getJSONObject(i);
+                            track = items_json.getJSONObject("track");
+                            artists_array = track.getJSONArray("artists");
+                            artists_jsonobject = artists_array.getJSONObject(0);
+                            artist_name = artists_jsonobject.getString("name");
+                            artist_list.add(artist_name);
+                            song = track.getString("name");
+                            song_list.add(song);
+                            tracks_dict.put(song, artist_name);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    Log.d("Artists List", String.valueOf(artist_list));
+                    Log.d("check", new String("check"));
+                    Log.d("ITEMS JSON", String.valueOf(items_json));
+                    Log.d("TRACK", String.valueOf(track));
+                    Log.d("Artists Array", String.valueOf(artists_array));
+                    Log.d("Artists dict", String.valueOf(artists_jsonobject));
+                    Log.d("Artist name", artist_name);
+                    Log.d("SONG", song);
+                    Log.d("Song list", String.valueOf(song_list));
+                    Log.d("tracks_dict", String.valueOf(tracks_dict));
+
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(getApplicationContext(), "SPOTIFY AUTH Error: " + error.toString(), Toast.LENGTH_SHORT).show();
+                    Log.d("SPOTIFY AUTH Error: ", error.toString());
+                }
+
+            }) {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("Authorization", "Bearer " + token);
+                    params.put("Content-Type", "application/json");
+
+                    return params;
+                }
+            };
+            RequestQueue requestqueue = Volley.newRequestQueue(getApplicationContext());
+            requestqueue.add(JSONRequest);
+
+        }
     }
 
 
@@ -442,8 +662,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 // Response was successful and contains auth token
                 case TOKEN:
                     String token = response.getAccessToken();
-                    Toast.makeText(MainActivity.this,"TOKEN: "+token, Toast.LENGTH_SHORT).show();
-                    Log.d("TOKEN", token);
+//                    Toast.makeText(MainActivity.this,"TOKEN: "+token, Toast.LENGTH_SHORT).show();
+//                    Log.d("TOKEN", token);
                     spotify_playlist(token);
                     break;
 
@@ -521,7 +741,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //                    Toast.makeText(MainActivity.this, wind_speed + "WINDDD", Toast.LENGTH_SHORT).show();
                 TextView cloud_text = (TextView) findViewById(R.id.Clouds);
                 cloud_text.setText("Cloudiness: " + cloudiness + "%");
-                spotify_authorization();
             }
         }, new Response.ErrorListener()
 

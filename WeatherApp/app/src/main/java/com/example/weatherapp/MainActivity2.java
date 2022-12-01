@@ -28,6 +28,8 @@ public class MainActivity2 extends AppCompatActivity {
     }
 
 public void music_slots() {
+        TextView Heading = (TextView) findViewById(R.id.Activity2Head);
+
         TextView song1 = (TextView) findViewById(R.id.song1);
         TextView song2 = (TextView) findViewById(R.id.Song2);
         TextView song3 = (TextView) findViewById(R.id.Song3);
