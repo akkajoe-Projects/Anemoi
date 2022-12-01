@@ -5,25 +5,55 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity2">
+    <RelativeLayout
+        android:id="@+id/Bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"></RelativeLayout>
+
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/rain_gif"
+        android:layout_width="650dp"
+        android:layout_height="match_parent"
+        android:alpha="0.3"
+        android:src="@drawable/transparentraingif"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <RelativeLayout
+        android:id="@+id/RelativeLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+        <ImageView
+            android:id="@+id/SingingWoman"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:src="@drawable/hobbiesmonochromatic"
+            android:layout_below="@+id/Activity2Head"
+            android:layout_marginLeft="250dp"
+            android:layout_marginRight="10dp"
+            tools:ignore="MissingConstraints"/>
 
 
         <TextView
             android:id="@+id/Activity2Head"
-            android:layout_width="120dp"
+            android:layout_width="400dp"
             android:layout_height="40dp"
             android:layout_centerHorizontal="true"
             android:layout_marginStart="175dp"
             android:layout_marginTop="20dp"
             android:font="@font/backout"
-            android:fontFamily="@font/backout"
+            android:fontFamily="@font/basteleurbold"
+            android:gravity="center"
             android:text="@string/HEADING"
             android:textColor="@color/white"
             android:textSize="24sp" />
@@ -31,537 +61,740 @@
 
         <FrameLayout
             android:id="@+id/LeftBox1"
-            android:layout_width="200dp"
-            android:layout_height="20dp"
-            android:background="#9C27B0"
+            android:layout_width="450dp"
+            android:layout_height="28dp"
             android:layout_below="@id/Activity2Head"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="10dp">
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="20dp">
 
 
             <TextView
                 android:id="@+id/song1"
-                android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/avarabold"
                 android:text="Song1"
-                android:textColor="@color/white"/>
-
-        </FrameLayout>
-
-        <FrameLayout
-            android:id="@+id/RightBox1"
-            android:layout_width="200dp"
-            android:layout_height="20dp"
-            android:background="#1B151C"
-            android:layout_below="@id/Activity2Head"
-            android:layout_marginTop="20dp"
-            android:layout_marginRight="10dp"
-            android:layout_toRightOf="@+id/LeftBox1">
-
-            <TextView
-                android:id="@+id/artist1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/Activity2Head"
-                android:layout_alignRight="@+id/song1"
-                android:text="Artist1"
                 android:textColor="@color/white"
-                tools:ignore="NotSibling" />
+                android:textSize="12sp" />
 
         </FrameLayout>
 
 
         <FrameLayout
             android:id="@+id/LeftBox2"
-            android:layout_width="200dp"
-            android:layout_height="20dp"
-            android:background="#9C27B0"
+            android:layout_width="450dp"
+            android:layout_height="28dp"
             android:layout_below="@id/LeftBox1"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp">
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp">
 
-        <TextView
-            android:id="@+id/Song2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:layout_centerHorizontal="true"
-            android:text="Song2"/>
-
-        </FrameLayout>
-
-
-        <FrameLayout
-            android:id="@+id/RightBox2"
-            android:layout_width="200dp"
-            android:layout_height="20dp"
-            android:background="#1B151C"
-            android:layout_below="@id/RightBox1"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_toRightOf="@+id/LeftBox2">
-
-        <TextView
-            android:id="@+id/artist2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Artist2"
-            android:textColor="@color/white"/>
+            <TextView
+                android:id="@+id/Song2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:fontFamily="@font/avarabold"
+                android:text="Song2"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
 
         </FrameLayout>
+
 
         <FrameLayout
             android:id="@+id/LeftBox3"
-            android:layout_width="200dp"
-            android:layout_height="20dp"
-            android:background="#9C27B0"
+            android:layout_width="450dp"
+            android:layout_height="28dp"
             android:layout_below="@id/LeftBox2"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp">
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp">
 
-        <TextView
-            android:id="@+id/Song3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Song3"
-            android:textColor="@color/white"/>
-
-        </FrameLayout>
-
-        <FrameLayout
-            android:id="@+id/RightBox3"
-            android:layout_width="200dp"
-            android:layout_height="20dp"
-            android:background="#1B151C"
-            android:layout_below="@id/RightBox2"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_toRightOf="@+id/LeftBox3">
-
-        <TextView
-            android:id="@+id/Artist3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:text="Artist3"/>
+            <TextView
+                android:id="@+id/Song3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Song3"
+                android:fontFamily="@font/avarabold"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
 
         </FrameLayout>
+
 
         <FrameLayout
             android:id="@+id/LeftBox4"
-            android:layout_width="200dp"
-            android:layout_height="20dp"
-            android:background="#9C27B0"
+            android:layout_width="450dp"
+            android:layout_height="28dp"
             android:layout_below="@id/LeftBox3"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp">
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp">
 
 
-        <TextView
-            android:id="@+id/Song4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Song4"
-            android:textColor="@color/white"/>
-        </FrameLayout>
-
-
-        <FrameLayout
-            android:id="@+id/RightBox4"
-            android:layout_width="200dp"
-            android:layout_height="20dp"
-            android:background="#1B151C"
-            android:layout_below="@id/RightBox3"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_toRightOf="@+id/LeftBox4">
-
-        <TextView
-            android:id="@+id/Artist4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Artist4"
-            android:textColor="@color/white"/>
+            <TextView
+                android:id="@+id/Song4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Song4"
+                android:fontFamily="@font/avarabold"
+                android:textColor="@color/white"
+                android:textSize="12sp"/>
         </FrameLayout>
 
 
         <FrameLayout
             android:id="@+id/LeftBox5"
-            android:layout_width="200dp"
-            android:layout_height="20dp"
-            android:background="#9C27B0"
+            android:layout_width="450dp"
+            android:layout_height="28dp"
             android:layout_below="@id/LeftBox4"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp">
-        <TextView
-            android:id="@+id/Song5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Song5"
-            android:textColor="@color/white"/>
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp">
 
-        </FrameLayout>
+            <TextView
+                android:id="@+id/Song5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/avarabold"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
 
-        <FrameLayout
-            android:id="@+id/RightBox5"
-            android:layout_width="200dp"
-            android:layout_height="20dp"
-            android:background="#1B151C"
-            android:layout_below="@id/RightBox4"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_toRightOf="@+id/LeftBox5">
-
-        <TextView
-            android:id="@+id/Artist5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Artist5"
-            android:textColor="@color/white"/>
         </FrameLayout>
 
         <FrameLayout
             android:id="@+id/LeftBox6"
-            android:layout_width="200dp"
-            android:layout_height="20dp"
-            android:background="#9C27B0"
+            android:layout_width="450dp"
+            android:layout_height="28dp"
             android:layout_below="@id/LeftBox5"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp">
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp">
 
-        <TextView
-            android:id="@+id/Song6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Song6"
-            android:textColor="@color/white"/>
+            <TextView
+                android:id="@+id/Song6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/avarabold"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
         </FrameLayout>
 
-
-        <FrameLayout
-            android:id="@+id/RightBox6"
-            android:layout_width="200dp"
-            android:layout_height="20dp"
-            android:background="#1B151C"
-            android:layout_below="@id/RightBox5"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_toRightOf="@+id/LeftBox5">
-        <TextView
-            android:id="@+id/Artist6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Artist6"
-            android:textColor="@color/white"/>
-        </FrameLayout>
 
         <FrameLayout
             android:id="@+id/LeftBox7"
-            android:layout_width="200dp"
-            android:layout_height="20dp"
-            android:background="#9C27B0"
+            android:layout_width="450dp"
+            android:layout_height="28dp"
             android:layout_below="@id/LeftBox6"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp">
-        <TextView
-            android:id="@+id/Song7"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Song7"
-            android:textColor="@color/white"/>
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:id="@+id/Song7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/avarabold"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
         </FrameLayout>
 
-        <FrameLayout
-            android:id="@+id/RightBox7"
-            android:layout_width="200dp"
-            android:layout_height="20dp"
-            android:background="#1B151C"
-            android:layout_below="@id/RightBox6"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_toRightOf="@+id/LeftBox6">
-
-        <TextView
-            android:id="@+id/Artist7"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Artist7"
-            android:textColor="@color/white"/>
-        </FrameLayout>
 
         <FrameLayout
             android:id="@+id/LeftBox8"
-            android:layout_width="200dp"
-            android:layout_height="20dp"
-            android:background="#9C27B0"
+            android:layout_width="450dp"
+            android:layout_height="28dp"
             android:layout_below="@id/LeftBox7"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp">
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp">
 
-        <TextView
-            android:id="@+id/Song8"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Song8"
-            android:textColor="@color/white"/>
+            <TextView
+                android:id="@+id/Song8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/avarabold"
+                android:text="Song8"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
         </FrameLayout>
 
-        <FrameLayout
-            android:id="@+id/RightBox8"
-            android:layout_width="200dp"
-            android:layout_height="20dp"
-            android:background="#1B151C"
-            android:layout_below="@id/RightBox7"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_toRightOf="@+id/LeftBox8">
-
-        <TextView
-            android:id="@+id/Artist8"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Artist8"
-            android:textColor="@color/white"/>
-        </FrameLayout>
 
         <FrameLayout
             android:id="@+id/LeftBox9"
-            android:layout_width="200dp"
-            android:layout_height="20dp"
-            android:background="#9C27B0"
+            android:layout_width="450dp"
+            android:layout_height="28dp"
             android:layout_below="@id/LeftBox8"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp">
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp">
 
-        <TextView
-            android:id="@+id/Song9"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Song9"
-            android:textColor="@color/white"/>
+            <TextView
+                android:id="@+id/Song9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Song9"
+                android:fontFamily="@font/avarabold"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
         </FrameLayout>
 
-        <FrameLayout
-            android:id="@+id/RightBox9"
-            android:layout_width="200dp"
-            android:layout_height="20dp"
-            android:background="#1B151C"
-            android:layout_below="@id/RightBox8"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_toRightOf="@+id/LeftBox9">
-
-        <TextView
-            android:id="@+id/Artist9"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Artist9"
-            android:textColor="@color/white"/>
-        </FrameLayout>
 
         <FrameLayout
             android:id="@+id/LeftBox10"
-            android:layout_width="200dp"
-            android:layout_height="20dp"
-            android:background="#9C27B0"
+            android:layout_width="450dp"
+            android:layout_height="28dp"
             android:layout_below="@id/LeftBox9"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp">
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp">
 
-        <TextView
-            android:id="@+id/Song10"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Song10"
-            android:textColor="@color/white"/>
-        </FrameLayout>
-
-        <FrameLayout
-            android:id="@+id/RightBox10"
-            android:layout_width="200dp"
-            android:layout_height="20dp"
-            android:background="#1B151C"
-            android:layout_below="@id/RightBox9"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_toRightOf="@+id/LeftBox10">
-
-
-        <TextView
-            android:id="@+id/Artist10"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Artist10"
-            android:textColor="@color/white"/>
+            <TextView
+                android:id="@+id/Song10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Song10"
+                android:fontFamily="@font/avarabold"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
         </FrameLayout>
 
         <FrameLayout
             android:id="@+id/LeftBox11"
-            android:layout_width="200dp"
-            android:layout_height="20dp"
-            android:background="#9C27B0"
+            android:layout_width="450dp"
+            android:layout_height="28dp"
             android:layout_below="@id/LeftBox10"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp">
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp">
 
             <TextView
                 android:id="@+id/Song11"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Song11"
-                android:textColor="@color/white"/>
-        </FrameLayout>
-
-        <FrameLayout
-            android:id="@+id/RightBox11"
-            android:layout_width="200dp"
-            android:layout_height="20dp"
-            android:background="#1B151C"
-            android:layout_below="@id/RightBox10"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_toRightOf="@+id/LeftBox11">
-
-
-        <TextView
-            android:id="@+id/Artist11"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Artist11"
-            android:textColor="@color/white"/>
+                android:fontFamily="@font/avarabold"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
         </FrameLayout>
 
         <FrameLayout
             android:id="@+id/LeftBox12"
-            android:layout_width="200dp"
-            android:layout_height="20dp"
-            android:background="#9C27B0"
+            android:layout_width="450dp"
+            android:layout_height="28dp"
             android:layout_below="@id/LeftBox11"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp">
-        <TextView
-            android:id="@+id/Song12"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Song12"
-            android:textColor="@color/white"/>
-        </FrameLayout>
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp">
 
-        <FrameLayout
-            android:id="@+id/RightBox12"
-            android:layout_width="200dp"
-            android:layout_height="20dp"
-            android:background="#1B151C"
-            android:layout_below="@id/RightBox11"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_toRightOf="@+id/LeftBox12">
-        <TextView
-            android:id="@+id/Artist12"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Artist12"
-            android:textColor="@color/white"/>
+            <TextView
+                android:id="@+id/Song12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Song12"
+                android:fontFamily="@font/avarabold"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
         </FrameLayout>
 
         <FrameLayout
             android:id="@+id/LeftBox13"
-            android:layout_width="200dp"
-            android:layout_height="20dp"
-            android:background="#9C27B0"
+            android:layout_width="450dp"
+            android:layout_height="28dp"
             android:layout_below="@id/LeftBox12"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp">
-        <TextView
-            android:id="@+id/Song13"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Song13"
-            android:textColor="@color/white"/>
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:id="@+id/Song13"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Song13"
+                android:fontFamily="@font/avarabold"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
         </FrameLayout>
 
-        <FrameLayout
-            android:id="@+id/RightBox13"
-            android:layout_width="200dp"
-            android:layout_height="20dp"
-            android:background="#1B151C"
-            android:layout_below="@id/RightBox12"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_toRightOf="@+id/LeftBox13">
-        <TextView
-            android:id="@+id/Artist13"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Artist13"
-            android:textColor="@color/white"/>
-        </FrameLayout>
 
         <FrameLayout
             android:id="@+id/LeftBox14"
-            android:layout_width="200dp"
-            android:layout_height="20dp"
-            android:background="#9C27B0"
+            android:layout_width="450dp"
+            android:layout_height="28dp"
             android:layout_below="@id/LeftBox13"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp">
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp">
+
             <TextView
                 android:id="@+id/Song14"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Song14"
-                android:textColor="@color/white"/>
-        </FrameLayout>
-
-        <FrameLayout
-            android:id="@+id/RightBox14"
-            android:layout_width="200dp"
-            android:layout_height="20dp"
-            android:background="#1B151C"
-            android:layout_below="@id/RightBox13"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_toRightOf="@+id/LeftBox14">
-        <TextView
-            android:id="@+id/Artist14"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Artist14"
-            android:textColor="@color/white"/>
+                android:fontFamily="@font/avarabold"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
         </FrameLayout>
 
         <FrameLayout
             android:id="@+id/LeftBox15"
-            android:layout_width="200dp"
-            android:layout_height="20dp"
-            android:background="#9C27B0"
+            android:layout_width="450dp"
+            android:layout_height="28dp"
             android:layout_below="@id/LeftBox14"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp">
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp">
+
             <TextView
                 android:id="@+id/Song15"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Song15"
-                android:textColor="@color/white"/>
+                android:fontFamily="@font/avarabold"
+                android:textColor="@color/white"
+                android:textSize="12sp"/>
         </FrameLayout>
-        <FrameLayout
-            android:id="@+id/RightBox15"
-            android:layout_width="200dp"
-            android:layout_height="20dp"
-            android:background="#1B151C"
-            android:layout_below="@id/RightBox14"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_toRightOf="@+id/LeftBox15">
-            <TextView
-                android:id="@+id/Artist15"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Artist15"
-                android:textColor="@color/white"/>
-        </FrameLayout>
-
     </RelativeLayout>
+
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

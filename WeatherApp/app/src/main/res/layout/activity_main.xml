@@ -139,7 +139,6 @@
             android:layout_height="150dp"
             android:layout_below="@+id/Description"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="40dp"
             android:layout_marginBottom="40dp"
             android:onClick="music_sugg"
             android:src="@drawable/music" />

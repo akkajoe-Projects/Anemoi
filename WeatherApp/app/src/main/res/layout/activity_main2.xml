@@ -17,15 +17,16 @@
 
         <TextView
             android:id="@+id/Activity2Head"
-            android:layout_width="120dp"
+            android:layout_width="500dp"
             android:layout_height="40dp"
             android:layout_centerHorizontal="true"
             android:layout_marginStart="175dp"
             android:layout_marginTop="20dp"
+            android:font="@font/backout"
+            android:fontFamily="@font/backout"
             android:text="@string/HEADING"
             android:textColor="@color/white"
-            android:textSize="24sp"
-            android:font="@font/backout"/>
+            android:textSize="24sp" />
 
 
         <FrameLayout
@@ -80,13 +81,13 @@
             android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp">
 
-        <TextView
-            android:id="@+id/Song2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:layout_centerHorizontal="true"
-            android:text="Song2"/>
+            <TextView
+                android:id="@+id/Song2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:layout_centerHorizontal="true"
+                android:text="Song2"/>
 
         </FrameLayout>
 
@@ -101,12 +102,12 @@
             android:layout_marginRight="10dp"
             android:layout_toRightOf="@+id/LeftBox2">
 
-        <TextView
-            android:id="@+id/artist2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Artist2"
-            android:textColor="@color/white"/>
+            <TextView
+                android:id="@+id/artist2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Artist2"
+                android:textColor="@color/white"/>
 
         </FrameLayout>
 
@@ -119,12 +120,12 @@
             android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp">
 
-        <TextView
-            android:id="@+id/Song3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Song3"
-            android:textColor="@color/white"/>
+            <TextView
+                android:id="@+id/Song3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Song3"
+                android:textColor="@color/white"/>
 
         </FrameLayout>
 
@@ -138,12 +139,12 @@
             android:layout_marginRight="10dp"
             android:layout_toRightOf="@+id/LeftBox3">
 
-        <TextView
-            android:id="@+id/Artist3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:text="Artist3"/>
+            <TextView
+                android:id="@+id/Artist3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:text="Artist3"/>
 
         </FrameLayout>
 
@@ -157,12 +158,12 @@
             android:layout_marginLeft="10dp">
 
 
-        <TextView
-            android:id="@+id/Song4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Song4"
-            android:textColor="@color/white"/>
+            <TextView
+                android:id="@+id/Song4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Song4"
+                android:textColor="@color/white"/>
         </FrameLayout>
 
 
@@ -176,12 +177,12 @@
             android:layout_marginRight="10dp"
             android:layout_toRightOf="@+id/LeftBox4">
 
-        <TextView
-            android:id="@+id/Artist4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Artist4"
-            android:textColor="@color/white"/>
+            <TextView
+                android:id="@+id/Artist4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Artist4"
+                android:textColor="@color/white"/>
         </FrameLayout>
 
 
@@ -193,12 +194,12 @@
             android:layout_below="@id/LeftBox4"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp">
-        <TextView
-            android:id="@+id/Song5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Song5"
-            android:textColor="@color/white"/>
+            <TextView
+                android:id="@+id/Song5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Song5"
+                android:textColor="@color/white"/>
 
         </FrameLayout>
 
@@ -212,12 +213,12 @@
             android:layout_marginRight="10dp"
             android:layout_toRightOf="@+id/LeftBox5">
 
-        <TextView
-            android:id="@+id/Artist5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Artist5"
-            android:textColor="@color/white"/>
+            <TextView
+                android:id="@+id/Artist5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Artist5"
+                android:textColor="@color/white"/>
         </FrameLayout>
 
         <FrameLayout
@@ -229,12 +230,12 @@
             android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp">
 
-        <TextView
-            android:id="@+id/Song6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Song6"
-            android:textColor="@color/white"/>
+            <TextView
+                android:id="@+id/Song6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Song6"
+                android:textColor="@color/white"/>
         </FrameLayout>
 
 
@@ -247,12 +248,12 @@
             android:layout_marginTop="10dp"
             android:layout_marginRight="10dp"
             android:layout_toRightOf="@+id/LeftBox5">
-        <TextView
-            android:id="@+id/Artist6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Artist6"
-            android:textColor="@color/white"/>
+            <TextView
+                android:id="@+id/Artist6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Artist6"
+                android:textColor="@color/white"/>
         </FrameLayout>
 
         <FrameLayout
@@ -263,12 +264,12 @@
             android:layout_below="@id/LeftBox6"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp">
-        <TextView
-            android:id="@+id/Song7"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Song7"
-            android:textColor="@color/white"/>
+            <TextView
+                android:id="@+id/Song7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Song7"
+                android:textColor="@color/white"/>
         </FrameLayout>
 
         <FrameLayout
@@ -281,12 +282,12 @@
             android:layout_marginRight="10dp"
             android:layout_toRightOf="@+id/LeftBox6">
 
-        <TextView
-            android:id="@+id/Artist7"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Artist7"
-            android:textColor="@color/white"/>
+            <TextView
+                android:id="@+id/Artist7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Artist7"
+                android:textColor="@color/white"/>
         </FrameLayout>
 
         <FrameLayout
@@ -298,12 +299,12 @@
             android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp">
 
-        <TextView
-            android:id="@+id/Song8"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Song8"
-            android:textColor="@color/white"/>
+            <TextView
+                android:id="@+id/Song8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Song8"
+                android:textColor="@color/white"/>
         </FrameLayout>
 
         <FrameLayout
@@ -316,12 +317,12 @@
             android:layout_marginRight="10dp"
             android:layout_toRightOf="@+id/LeftBox8">
 
-        <TextView
-            android:id="@+id/Artist8"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Artist8"
-            android:textColor="@color/white"/>
+            <TextView
+                android:id="@+id/Artist8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Artist8"
+                android:textColor="@color/white"/>
         </FrameLayout>
 
         <FrameLayout
@@ -333,12 +334,12 @@
             android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp">
 
-        <TextView
-            android:id="@+id/Song9"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Song9"
-            android:textColor="@color/white"/>
+            <TextView
+                android:id="@+id/Song9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Song9"
+                android:textColor="@color/white"/>
         </FrameLayout>
 
         <FrameLayout
@@ -351,12 +352,12 @@
             android:layout_marginRight="10dp"
             android:layout_toRightOf="@+id/LeftBox9">
 
-        <TextView
-            android:id="@+id/Artist9"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Artist9"
-            android:textColor="@color/white"/>
+            <TextView
+                android:id="@+id/Artist9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Artist9"
+                android:textColor="@color/white"/>
         </FrameLayout>
 
         <FrameLayout
@@ -368,12 +369,12 @@
             android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp">
 
-        <TextView
-            android:id="@+id/Song10"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Song10"
-            android:textColor="@color/white"/>
+            <TextView
+                android:id="@+id/Song10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Song10"
+                android:textColor="@color/white"/>
         </FrameLayout>
 
         <FrameLayout
@@ -387,12 +388,12 @@
             android:layout_toRightOf="@+id/LeftBox10">
 
 
-        <TextView
-            android:id="@+id/Artist10"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Artist10"
-            android:textColor="@color/white"/>
+            <TextView
+                android:id="@+id/Artist10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Artist10"
+                android:textColor="@color/white"/>
         </FrameLayout>
 
         <FrameLayout
@@ -423,12 +424,12 @@
             android:layout_toRightOf="@+id/LeftBox11">
 
 
-        <TextView
-            android:id="@+id/Artist11"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Artist11"
-            android:textColor="@color/white"/>
+            <TextView
+                android:id="@+id/Artist11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Artist11"
+                android:textColor="@color/white"/>
         </FrameLayout>
 
         <FrameLayout
@@ -439,12 +440,12 @@
             android:layout_below="@id/LeftBox11"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp">
-        <TextView
-            android:id="@+id/Song12"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Song12"
-            android:textColor="@color/white"/>
+            <TextView
+                android:id="@+id/Song12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Song12"
+                android:textColor="@color/white"/>
         </FrameLayout>
 
         <FrameLayout
@@ -456,12 +457,12 @@
             android:layout_marginTop="10dp"
             android:layout_marginRight="10dp"
             android:layout_toRightOf="@+id/LeftBox12">
-        <TextView
-            android:id="@+id/Artist12"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Artist12"
-            android:textColor="@color/white"/>
+            <TextView
+                android:id="@+id/Artist12"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Artist12"
+                android:textColor="@color/white"/>
         </FrameLayout>
 
         <FrameLayout
@@ -472,12 +473,12 @@
             android:layout_below="@id/LeftBox12"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp">
-        <TextView
-            android:id="@+id/Song13"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Song13"
-            android:textColor="@color/white"/>
+            <TextView
+                android:id="@+id/Song13"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Song13"
+                android:textColor="@color/white"/>
         </FrameLayout>
 
         <FrameLayout
@@ -489,12 +490,12 @@
             android:layout_marginTop="10dp"
             android:layout_marginRight="10dp"
             android:layout_toRightOf="@+id/LeftBox13">
-        <TextView
-            android:id="@+id/Artist13"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Artist13"
-            android:textColor="@color/white"/>
+            <TextView
+                android:id="@+id/Artist13"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Artist13"
+                android:textColor="@color/white"/>
         </FrameLayout>
 
         <FrameLayout
@@ -522,12 +523,12 @@
             android:layout_marginTop="10dp"
             android:layout_marginRight="10dp"
             android:layout_toRightOf="@+id/LeftBox14">
-        <TextView
-            android:id="@+id/Artist14"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Artist14"
-            android:textColor="@color/white"/>
+            <TextView
+                android:id="@+id/Artist14"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Artist14"
+                android:textColor="@color/white"/>
         </FrameLayout>
 
         <FrameLayout

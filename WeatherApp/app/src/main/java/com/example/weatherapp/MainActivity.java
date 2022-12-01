@@ -232,6 +232,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Toast.makeText(this,"ARTISTLIST",Toast.LENGTH_SHORT).show();
         intent2.putExtra("Artist List", artist_list);
         intent2.putExtra("Song List", song_list);
+        intent2.putExtra("Weather Description", weather_description);
+        intent2.putExtra("Main String", main_string);
         startActivity(intent2);
     }
 
@@ -366,7 +368,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void spotify_playlist(String token) {
         Toast.makeText(MainActivity.this,"MAIN IN SPOTIFY PPLAYLIST"+main_string, Toast.LENGTH_SHORT).show();
         // Replace weather_description with main object
-        if (Objects.equals(main_string, "Drizzle") || Objects.equals(main_string, "Rain") || Objects.equals(main_string, "Thunderstorm")) {
+        if (Objects.equals(main_string, "Drizzle") || Objects.equals(main_string, "Rain") || Objects.equals(main_string, "Thunderstorm")
+        || Objects.equals(main_string, "Haze")) {
             Toast.makeText(this, "INSODE CONDITION", Toast.LENGTH_SHORT).show();
             String playlist_url = "https://api.spotify.com/v1/playlists/1VOREp7qG3Jen3Mpgdus41/tracks";
             JsonObjectRequest JSONRequest = new JsonObjectRequest(playlist_url, new Response.Listener<JSONObject>() {
