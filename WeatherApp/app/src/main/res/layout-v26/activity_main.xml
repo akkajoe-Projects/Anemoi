@@ -29,7 +29,9 @@
         android:layout_width="70dp"
         android:layout_height="50dp"
         android:onClick="city_name"
-        android:text=""
+        android:text="Enter"
+        android:textSize="9dp"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -95,7 +97,7 @@
             android:paddingLeft="30dp"
             android:text=""
             android:textAlignment="textEnd"
-            android:font="@font/cirruscumulus"/>
+            android:font="@font/basteleurmoonlight"/>
 
         <TextView
             android:id="@+id/Description"

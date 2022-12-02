@@ -7,6 +7,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.content.Context;
@@ -99,7 +100,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         map.setBuiltInZoomControls(true);
         map.setMultiTouchControls(true);
         mapController = map.getController();
-        mapController.setZoom(10);
+        mapController.setZoom(6);
+        map.setMinZoomLevel(3.0);
         btn = findViewById(R.id.button);
         btn.setOnClickListener(this);
 
