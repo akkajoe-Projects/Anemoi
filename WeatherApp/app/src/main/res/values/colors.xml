@@ -10,5 +10,6 @@
     <color name='red'>#FFFF0000</color>
     <color name='WeldonBlue'>#819BAF</color>
     <color name="DirtyWhite">#E3E2C3</color>
-    <color name="MinionYellow">#F8C220</color>
+    <color name="MinionYellow">#E7A22A</color>
+    <color name="Teal">#384E4E</color>
 </resources>

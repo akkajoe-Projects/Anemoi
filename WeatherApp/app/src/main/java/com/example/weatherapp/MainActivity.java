@@ -182,7 +182,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        Toast.makeText(MainActivity.this,"MAIN "+ main_string,Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(MainActivity.this,"MAIN "+ main_string,Toast.LENGTH_SHORT).show();
                         TextView city_text = (TextView) findViewById(R.id.City);
                         city_text.setText(city);
                         TextView temp_text = (TextView) findViewById(R.id.Temp);
@@ -229,7 +229,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void music_sugg() {
         Intent intent2 = new Intent(this, MainActivity2.class);
-        Toast.makeText(this,"ARTISTLIST",Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this,"ARTISTLIST",Toast.LENGTH_SHORT).show();
         intent2.putExtra("Artist List", artist_list);
         intent2.putExtra("Song List", song_list);
         intent2.putExtra("Weather Description", weather_description);
@@ -366,11 +366,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public void spotify_playlist(String token) {
-        Toast.makeText(MainActivity.this,"MAIN IN SPOTIFY PPLAYLIST"+main_string, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(MainActivity.this,"MAIN IN SPOTIFY PPLAYLIST"+main_string, Toast.LENGTH_SHORT).show();
         // Replace weather_description with main object
-        if (Objects.equals(main_string, "Drizzle") || Objects.equals(main_string, "Rain") || Objects.equals(main_string, "Thunderstorm")
-        || Objects.equals(main_string, "Haze")) {
-            Toast.makeText(this, "INSODE CONDITION", Toast.LENGTH_SHORT).show();
+        if (Objects.equals(main_string, "Drizzle") || Objects.equals(main_string, "Rain")
+                || Objects.equals(main_string, "Thunderstorm")) {
+//            Toast.makeText(this, "INSODE CONDITION", Toast.LENGTH_SHORT).show();
             String playlist_url = "https://api.spotify.com/v1/playlists/1VOREp7qG3Jen3Mpgdus41/tracks";
             JsonObjectRequest JSONRequest = new JsonObjectRequest(playlist_url, new Response.Listener<JSONObject>() {
                 @Override
@@ -385,7 +385,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     String artist_name = "";
                     String song = "";
                     JSONArray track_dict_elements = null;
-                    Toast.makeText(getApplicationContext(), "SPOTIFY AUTH RESPONSE" + response.toString(), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getApplicationContext(), "SPOTIFY AUTH RESPONSE" + response.toString(), Toast.LENGTH_SHORT).show();
                     Log.d("SPOTIFY RESPONSE", response.toString());
                     Log.d("Key", String.valueOf(response.names()));
                     try {
@@ -439,7 +439,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         if (Objects.equals(main_string, "Clear")) {
-            Toast.makeText(MainActivity.this,"INSIDE CLEAR", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(MainActivity.this,"INSIDE CLEAR", Toast.LENGTH_SHORT).show();
             Log.d("INSIDE MIST", "mistttt");
             String playlist_url = "https://api.spotify.com/v1/playlists/1ioN4Mwrv6G7DGP2indDqK/tracks";
             JsonObjectRequest JSONRequest = new JsonObjectRequest(playlist_url, new Response.Listener<JSONObject>() {
@@ -455,7 +455,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     String artist_name = "";
                     String song = "";
                     JSONArray track_dict_elements = null;
-                    Toast.makeText(getApplicationContext(), "SPOTIFY AUTH RESPONSE" + response.toString(), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getApplicationContext(), "SPOTIFY AUTH RESPONSE" + response.toString(), Toast.LENGTH_SHORT).show();
                     Log.d("SPOTIFY RESPONSE", response.toString());
                     Log.d("Key", String.valueOf(response.names()));
                     try {
@@ -523,7 +523,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     String artist_name = "";
                     String song = "";
                     JSONArray track_dict_elements = null;
-                    Toast.makeText(getApplicationContext(), "SPOTIFY AUTH RESPONSE" + response.toString(), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getApplicationContext(), "SPOTIFY AUTH RESPONSE" + response.toString(), Toast.LENGTH_SHORT).show();
                     Log.d("SPOTIFY RESPONSE", response.toString());
                     Log.d("Key", String.valueOf(response.names()));
                     try {
@@ -576,7 +576,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             requestqueue.add(JSONRequest);
         }
 
-        if(Objects.equals(main_string, "Mist")) {
+        if(Objects.equals(main_string, "Mist") || Objects.equals(main_string, "Haze")) {
             String playlist_url = "https://api.spotify.com/v1/playlists/5oe6cUg1iDPpsIcdWzJV7M/tracks";
             JsonObjectRequest JSONRequest = new JsonObjectRequest(playlist_url, new Response.Listener<JSONObject>() {
                 @Override
@@ -591,7 +591,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     String artist_name = "";
                     String song = "";
                     JSONArray track_dict_elements = null;
-                    Toast.makeText(getApplicationContext(), "SPOTIFY AUTH RESPONSE" + response.toString(), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getApplicationContext(), "SPOTIFY AUTH RESPONSE" + response.toString(), Toast.LENGTH_SHORT).show();
                     Log.d("SPOTIFY RESPONSE", response.toString());
                     Log.d("Key", String.valueOf(response.names()));
                     try {

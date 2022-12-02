@@ -81,7 +81,8 @@
             android:layout_centerInParent="true"
             android:gravity="center"
             android:text=""
-            android:textSize="35sp" />
+            android:textSize="35sp"
+            android:font="@font/cirruscumulus"/>
 
         <TextView
             android:id="@+id/Temp"
@@ -92,7 +93,8 @@
             android:clickable="false"
             android:paddingLeft="30dp"
             android:text=""
-            android:textAlignment="textEnd" />
+            android:textAlignment="textEnd"
+            android:font="@font/cirruscumulus"/>
 
         <TextView
             android:id="@+id/Description"
@@ -100,7 +102,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/City"
             android:layout_centerInParent="true"
-            android:text="" />
+            android:text=""
+            android:font="@font/cirruscumulus"/>
 
         <TextView
             android:id="@+id/Humidity"
@@ -108,7 +111,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/Temp"
             android:paddingLeft="30dp"
-            android:text="" />
+            android:text=""
+            android:font="@font/cirruscumulus"/>
 
         <ImageView
             android:id="@+id/icon"
@@ -123,7 +127,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/Humidity"
             android:paddingLeft="30dp"
-            android:text="" />
+            android:text=""
+            android:font="@font/cirruscumulus"/>
 
         <TextView
             android:id="@+id/Clouds"
@@ -131,7 +136,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/Wind"
             android:paddingLeft="30dp"
-            android:text="" />
+            android:text=""
+            android:font="@font/cirruscumulus"/>
 
         <pl.droidsonroids.gif.GifImageView
             android:id="@+id/MusicIcongif"
